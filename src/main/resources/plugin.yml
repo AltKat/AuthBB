@@ -1,0 +1,14 @@
+name: AuthBB
+version: '1.0'
+main: io.github.altkat.authBB.AuthBB
+api-version: '1.21'
+commands:
+  authbb:
+    description: general command
+    usage: /authbb
+    aliases:
+      - authbossbar
+  server:
+    description: Sends to bungeecord server.
+    usage: /server servername
+    permission: AuthBB.server

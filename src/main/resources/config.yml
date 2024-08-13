@@ -1,0 +1,52 @@
+Bungee:
+  enabled: true
+  server: lobby
+  delay: 3
+  error: "&cAn error occured while teleporting you, please try to use /server command if that's not working please contact to an admin."
+  success: "&aYou're being connected to the server. If the server has not teleported you yet you can use &b/server &acommand."
+  error-command: "&cAn error occured while teleporting you, please make sure you are writing one of the following server name(s): &a%server_name%"
+  wait: "&cYou are sending commands too quickly please wait a moment!"
+  only-players: "&4Only players can use this command!"
+  no-permission: "&4You don't have the permission to use this command!"
+  wrong-usage: "&4Wrong usage! Please type &a/server servername."
+  teleporting: "&aYou are being teleported to the server..."
+  disabled: "&4This feature is disabled in the config file"
+
+LoginBossBar:
+  title: "&6Please login in &a%time% &bseconds"
+  color: "GREEN"
+  style: "SEGMENTED_10"
+  time: 30
+
+RegisterBossBar:
+  title: "&bPlease register in &a%time% &6seconds"
+  color: "RED"
+  style: "SEGMENTED_10"
+  time: 60
+
+LoginTitle:
+  title: "&6Please Login"
+  subtitle: "&f/login password"
+  fadein: 3
+  stay: 10
+  fadeout: 3
+
+RegisterTitle:
+  title: "&bPlease register"
+  subtitle: "&f/register password password"
+  fadein: 3
+  stay: 10
+  fadeout: 3
+
+TeleportTitle:
+  title: "&fTeleporting"
+  subtitle: "&cYou are being teleported to the lobby"
+  fadein: 3
+  stay: 10
+  fadeout: 3
+
+Kick:
+  enabled: true
+  login-message: "You are kicked because you did not logged in in time"
+  register-message: "You are kicked because you did not registered in time"
+
