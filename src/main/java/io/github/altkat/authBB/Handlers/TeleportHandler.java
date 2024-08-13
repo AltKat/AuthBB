@@ -9,6 +9,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
+import java.util.Objects;
 
 public class TeleportHandler {
     protected AuthBB plugin;
@@ -30,6 +31,9 @@ public class TeleportHandler {
         if(server == null){
             player.sendMessage(errorMessage);
         }
+        if(!Objects.equals(server, targetServer)){
+            player.sendMessage(errorMessage);
+        }
 
         if(Variables.sending.contains(player)) {
             player.sendMessage(waitMessage);
@@ -43,7 +47,7 @@ public class TeleportHandler {
                     DataOutputStream out = new DataOutputStream(output);
                     try{
                         out.writeUTF("Connect");
-                        out.writeUTF(targetServer);
+                        out.writeUTF(server);
                         player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
                         Variables.sending.remove(player);
                         player.sendMessage(successMessage);

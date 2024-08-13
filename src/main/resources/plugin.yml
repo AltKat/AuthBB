@@ -12,3 +12,7 @@ commands:
     description: Sends to bungeecord server.
     usage: /server servername
     permission: AuthBB.server
+  send:
+    description: Sends players to bungeecord server.
+    usage: /send player server
+    permission: AuthBB.send

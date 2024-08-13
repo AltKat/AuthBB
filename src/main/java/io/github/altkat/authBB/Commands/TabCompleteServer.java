@@ -13,8 +13,12 @@ public class TabCompleteServer implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
         if(Variables.config.getConfigurationSection("Bungee").getBoolean("enabled")) {
-            if (sender.hasPermission("AuthBB.server") || sender.hasPermission("AuthBB.admin")) {
-                completions.add(Variables.config.getConfigurationSection("Bungee").getString("server"));
+            if (sender.hasPermission("AuthBB.server")) {
+                if(args.length == 1) {
+                    completions.add(Variables.config.getConfigurationSection("Bungee").getString("server"));
+                }else {
+                    completions.clear();
+                }
             }
         }
         return completions;

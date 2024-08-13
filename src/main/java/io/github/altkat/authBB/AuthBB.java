@@ -4,10 +4,7 @@ import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.BossBars.LoginBossBar;
 import io.github.altkat.authBB.BossBars.RegisterBossBar;
-import io.github.altkat.authBB.Commands.ReloadCommand;
-import io.github.altkat.authBB.Commands.ServerCommand;
-import io.github.altkat.authBB.Commands.TabComplete;
-import io.github.altkat.authBB.Commands.TabCompleteServer;
+import io.github.altkat.authBB.Commands.*;
 import io.github.altkat.authBB.Handlers.TeleportHandler;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
@@ -58,10 +55,12 @@ public final class AuthBB extends JavaPlugin {
             server.setExecutor(new ServerCommand());
         }
 
+        Objects.requireNonNull(getCommand("send")).setExecutor(new SendCommand(this));
         Objects.requireNonNull(getCommand("authbb")).setExecutor(new ReloadCommand(this));
 
         Objects.requireNonNull(getCommand("authbb")).setTabCompleter(new TabComplete());
         Objects.requireNonNull(getCommand("server")).setTabCompleter(new TabCompleteServer());
+        getCommand("send").setTabCompleter(new TabCompleteSend());
         loadConfig();
 
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §ahas been enabled!");

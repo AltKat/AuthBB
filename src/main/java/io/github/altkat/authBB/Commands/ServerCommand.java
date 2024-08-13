@@ -16,8 +16,9 @@ public class ServerCommand implements CommandExecutor {
     String onlyPlayers = section.getString("only-players").replace("&", "§");
     String nopermission = section.getString("no-permission").replace("&", "§");
     String teleporting = section.getString("teleporting").replace("&", "§");
-    String wrongUsage = section.getString("wrong-usage").replace("&", "§");
+    String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
     String disabled = section.getString("disabled").replace("&", "§");
+    String serverNotFound = section.getString("server-not-found").replace("&", "§");
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(section.getBoolean("enabled")){
@@ -25,7 +26,7 @@ public class ServerCommand implements CommandExecutor {
                 if (!(commandSender instanceof Player)) {
                     commandSender.sendMessage(onlyPlayers);
                 }
-                if (!commandSender.hasPermission("AuthBB.server") || !commandSender.hasPermission("AuthBB.admin")) {
+                if (!commandSender.hasPermission("AuthBB.server")) {
                     commandSender.sendMessage(nopermission);
                     return true;
                 }
@@ -33,11 +34,13 @@ public class ServerCommand implements CommandExecutor {
                     commandSender.sendMessage(wrongUsage);
                     return true;
                 }
-                if (commandSender.hasPermission("AuthBB.server") || commandSender.hasPermission("AuthBB.admin")) {
-                    commandSender.sendMessage(teleporting);
+                if(!strings[0].equals(section.getString("server"))){
+                    commandSender.sendMessage(serverNotFound);
+                }else if (commandSender.hasPermission("AuthBB.server")) {
                     Variables.teleportHandler.teleportServer(((Player) commandSender).getPlayer(), strings[0]);
                     return true;
                 }
+
             return true;
         }else{
             commandSender.sendMessage(disabled);

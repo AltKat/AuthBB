@@ -17,6 +17,7 @@ public class ReloadCommand implements CommandExecutor {
     protected ConfigurationSection section = Variables.config.getConfigurationSection("Bungee");
 
     String nopermission = section.getString("no-permission").replace("&", "§");
+    String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
             if(strings.length == 0){
@@ -25,16 +26,16 @@ public class ReloadCommand implements CommandExecutor {
             }
 
             if(strings[0].equals("reload")) {
-                if(commandSender.hasPermission("AuthBB.admin")) {
+                if(commandSender.hasPermission("AuthBB.reload")) {
                     plugin.loadConfig();
-                    commandSender.sendMessage("§9[§6AuthBB§9] §bReloaded successfully");
+                    commandSender.sendMessage("§9[§6AuthBB§9] §bReloaded successfully. We always recommend restarting the server after changes, or use a plugin manager to reload the plugin.");
                 }else {
                     commandSender.sendMessage(nopermission);
                 }
             }
 
             if(strings[0].equals("help")){
-                if(commandSender.hasPermission("AuthBB.admin")){
+                if(commandSender.hasPermission("AuthBB.reload")){
                     commandSender.sendMessage("§b==========[ AuthBossBar HELP ]==========");
                     commandSender.sendMessage("  §f/authbossbar reload: Reloads the Plugin");
                     commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server");

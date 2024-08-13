@@ -12,7 +12,7 @@ public class TabComplete implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
 
-        if (sender.hasPermission("AuthBB.admin")) {
+        if (sender.hasPermission("AuthBB.reload")) {
             completions.add("reload");
             completions.add("help");
         }else {

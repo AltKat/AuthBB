@@ -1,3 +1,4 @@
+## StreetMelodeez ##
 Bungee:
   enabled: true
   server: lobby
@@ -8,9 +9,16 @@ Bungee:
   wait: "&cYou are sending commands too quickly please wait a moment!"
   only-players: "&4Only players can use this command!"
   no-permission: "&4You don't have the permission to use this command!"
-  wrong-usage: "&4Wrong usage! Please type &a/server servername."
+  wrong-usage-server: "&4Wrong usage! Please type &a/server servername."
+  wrong-usage-send: "&4Wrong usage! Please type &a/send (player) (server)"
   teleporting: "&aYou are being teleported to the server..."
   disabled: "&4This feature is disabled in the config file"
+  send-success-sender: "&aYou being teleported player %player% to the server %server%"
+  send-success-sent: "&aYou being teleported to the loby by an admin."
+  player-not-found: "&4Player not found!"
+  server-not-found: "&4Server not found!"
+  not-authenticated: "&4Player is not authenticated!"
+  player-already-teleporting: "&4Player already being teleported!"
 
 LoginBossBar:
   title: "&6Please login in &a%time% &bseconds"
@@ -20,7 +28,7 @@ LoginBossBar:
 
 RegisterBossBar:
   title: "&bPlease register in &a%time% &6seconds"
-  color: "RED"
+  color: "BLUE"
   style: "SEGMENTED_10"
   time: 60
 

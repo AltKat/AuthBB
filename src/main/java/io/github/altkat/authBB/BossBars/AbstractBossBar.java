@@ -32,8 +32,8 @@ public abstract class AbstractBossBar {
     public void createBB(Player player) {
         int time = section.getInt("time");
         String title = section.getString("title", "").replace("%time%", Integer.toString(time));
-        String color = section.getString("color", "");
-        String style = section.getString("style", "");
+        String color = section.getString("color", "BLUE");
+        String style = section.getString("style", "SEGMENTED_10");
         String kickmessage;
         if(section.getName().equals("LoginBossBar")){
             kickmessage = plugin.getConfig().getString("Kick.login-message").replace("&", "§");
