@@ -1,8 +1,6 @@
 package io.github.altkat.authBB.Handlers;
 
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Variables;
-import org.bukkit.Server;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -11,16 +9,16 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.util.Objects;
 
-public class TeleportHandler {
+public class ConnectionHandler {
     protected AuthBB plugin;
     protected ConfigurationSection section;
 
-    public TeleportHandler(AuthBB plugin, String section){
+    public ConnectionHandler(AuthBB plugin, String section){
         this.plugin = plugin;
-        this.section = Variables.config.getConfigurationSection("Bungee");
+        this.section = Connections.config.getConfigurationSection("Bungee");
     }
 
-    public void teleportServer(Player player, String server){
+    public void connectServer(Player player, String server){
         String targetServer = section.getString("server");
         Integer delay = section.getInt("delay");
         Boolean isenabled = section.getBoolean("enabled");
@@ -35,11 +33,13 @@ public class TeleportHandler {
             player.sendMessage(errorMessage);
         }
 
-        if(Variables.sending.contains(player)) {
+        if(Connections.sending.contains(player)) {
             player.sendMessage(waitMessage);
             return;
         }
-            Variables.sending.add(player);
+            Connections.sending.add(player);
+            Connections.connectionTitle.sendTitle(player);
+            player.sendMessage(successMessage);
             new BukkitRunnable(){
                 @Override
                 public void run(){
@@ -49,11 +49,10 @@ public class TeleportHandler {
                         out.writeUTF("Connect");
                         out.writeUTF(server);
                         player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
-                        Variables.sending.remove(player);
-                        player.sendMessage(successMessage);
+                        Connections.sending.remove(player);
                     }catch (Exception error){
                         error.printStackTrace();
-                        Variables.sending.remove(player);
+                        Connections.sending.remove(player);
                         player.sendMessage(errorMessage);
                     }
 

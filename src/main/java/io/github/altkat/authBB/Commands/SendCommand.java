@@ -2,7 +2,7 @@ package io.github.altkat.authBB.Commands;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Variables;
+import io.github.altkat.authBB.Handlers.Connections;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
 
 public class SendCommand implements CommandExecutor {
     protected AuthBB plugin;
-    protected ConfigurationSection section = Variables.config.getConfigurationSection("Bungee");
+    protected ConfigurationSection section = Connections.config.getConfigurationSection("Bungee");
     protected final AuthMeApi authMe;
     public SendCommand(AuthBB plugin){
         this.plugin = plugin;
@@ -26,13 +26,13 @@ public class SendCommand implements CommandExecutor {
     String noPermission = section.getString("no-permission").replace("&", "§");
     String serverNotFound = section.getString("server-not-found").replace("&", "§");
     String playerNotAuthenticated = section.getString("not-authenticated").replace("&", "§");
-    String playerAlreadyTeleporting = section.getString("player-already-teleporting").replace("&", "§");
+    String playerAlreadyConnecting = section.getString("player-already-connecting").replace("&", "§");
     String disabled = section.getString("disabled").replace("&", "§");
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if(section.getBoolean("enabled")){
-            if(strings.length < 1){
+            if(strings.length < 2){
                 commandSender.sendMessage(wrongUsage);
                 return true;
             }
@@ -51,10 +51,10 @@ public class SendCommand implements CommandExecutor {
             if(commandSender.hasPermission("AuthBB.send")){
                 if(!authMe.isAuthenticated(player)){
                     commandSender.sendMessage(playerNotAuthenticated);
-                }else if(Variables.sending.contains(player)){
-                    commandSender.sendMessage(playerAlreadyTeleporting);
+                }else if(Connections.sending.contains(player)){
+                    commandSender.sendMessage(playerAlreadyConnecting);
                 } else{
-                    Variables.teleportHandler.teleportServer(player, strings[1]);
+                    Connections.connectionHandler.connectServer(player, strings[1]);
                     commandSender.sendMessage((sendSuccessSender).replace("%player%", player.getName()).replace("%server%", strings[1]).replace("&", "§"));
                     player.sendMessage(sendSuccessSent);
                 }

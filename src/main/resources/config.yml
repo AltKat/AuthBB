@@ -1,37 +1,37 @@
 ###################################################################################################################################################
 ##                                           This plugin made by Altkat(StreetMelodeez) V1.1                                                     ##
 ##                                   Feel free to contact me for anything on discord: streetmelodeez                                             ##
-##  Please consider using a plugin manager(Plugman) to reload the plugin, or restart the server after you changed something in the config file.  ##
+##  Please consider using a plugin manager(PlugManX) to reload the plugin, or restart the server after you changed something in the config file. ##
 ###################################################################################################################################################
 
 #This option is for bungee, velocity and any other bungee like systems.
-#It will teleport players after they successfully logged-in or registered to the stated server in the server section below.
+#It will connect players after they successfully logged-in or registered to the stated server in the server section below.
 #Please make sure you write server name exactly the same as in your configuration file.
 Bungee:
   enabled: true
   server: lobby
   delay: 3
 
-#These are the messages for bungee teleporting and commands.
+#These are the messages for bungee connecting and commands.
 #%_% parts are placeholders please include them in your sentences as they are in the default config.
 #You are free to remove the placeholders they won't affect the plugin.
 #If you want to remove a message please do not delete the whole line just leave it blank as ' '.
-  error: "&cAn error occurred while teleporting you, please try to use /server command if that's not working please contact to an admin."
-  success: "&aYou're being connected to the server. If the server has not teleported you yet you can use &b/server &acommand."
-  error-command: "&cAn error occurred while teleporting you, please make sure you are writing one of the following server name(s): &a%server_name%."
+  error: "&cAn error occurred while connecting you, please try to use &a/server command &cif that's not working please contact to an admin."
+  success: "&aYou're being connected to the server. If the server has not connected you yet you can use &b/server &acommand."
+  error-command: "&cAn error occurred while connecting you, please make sure you are writing one of the following server name(s): &a%server_name%."
   wait: "&cYou are sending commands too quickly please wait a moment!"
   only-players: "&4Only players can use this command!"
   no-permission: "&4You don't have the permission to use this command!"
-  wrong-usage-server: "&4Wrong usage! Please type &a/server servername."
-  wrong-usage-send: "&4Wrong usage! Please type &a/send (player) (server)"
-  teleporting: "&aYou are being teleported to the server..."
-  disabled: "&4This feature is disabled in the config file."
+  wrong-usage-server: "&cWrong usage! Please type &a/server servername."
+  wrong-usage-send: "&cWrong usage! Please type &a/send (player) (server)"
+  connecting: "&aYou are being connected to the server..."
+  disabled: "&cThis feature is disabled in the config file."
   send-success-sender: "&aYou are sending player %player% to the server %server%."
-  send-success-sent: "&aYou being teleported to the loby by an admin."
+  send-success-sent: "&aYou are being connected to the lobby by an admin."
   player-not-found: "&4Player not found!"
   server-not-found: "&4Server not found!"
   not-authenticated: "&4Player is not authenticated!"
-  player-already-teleporting: "&4Player already being teleported!"
+  player-already-connecting: "&4Player already being connected!"
 
 #IMPORTANT!#
 #Please make sure you do not write anything other than the listed options below for color and style sections.
@@ -41,7 +41,7 @@ Bungee:
 
 #This is the boss bar which is created on registered players' login screen.
 LoginBossBar:
-  title: "&6Please login in &a%time% &bseconds."
+  title: "&6Please login in &a%time% &6seconds."
   color: "GREEN"
   style: "SEGMENTED_10"
   time: 30
@@ -51,37 +51,38 @@ RegisterBossBar:
   title: "&bPlease register in &a%time% &6seconds."
   color: "BLUE"
   style: "SEGMENTED_10"
-  time: 60
+  time: 30
 
 #This is the title shown when a registered player joins the server.
 LoginTitle:
   title: "&6Please Login"
   subtitle: "&f/login password"
-  fadein: 3
-  stay: 10
-  fadeout: 3
+  fadein: 2
+  stay: 5
+  fadeout: 2
 
 #This is the title shown when an unregistered player joins the server.
 RegisterTitle:
   title: "&bPlease register"
   subtitle: "&f/register password password"
-  fadein: 3
-  stay: 10
-  fadeout: 3
+  fadein: 2
+  stay: 5
+  fadeout: 2
 
-#This is the title shown when a player are being teleporting to the server.
+#This is the title shown when a player are being connected to the server.
 #Only works if bungee is enabled above.
-TeleportTitle:
-  title: "&fTeleporting"
-  subtitle: "&cYou are being teleported to the lobby"
-  fadein: 3
-  stay: 10
-  fadeout: 3
+ConnectingTitle:
+  title: "&fConnecting"
+  subtitle: "&cYou are being connected to the lobby"
+  fadein: 2
+  stay: 5
+  fadeout: 2
 
 #Should I kick the player if the time runs out?
-#If enabled players will be kicked out when they are not logged in or registered in the specified seconds above in the bossbars section.
+#If enabled players will be kicked out when they are not logged in or registered in the specified seconds above in the bossbar section.
+#If you disabled kick feature and using AuthMe's kick feature please make sure you match bossbar time's with the AuthMe's kick time.
 Kick:
   enabled: true
-  login-message: "You are kicked because you did not logged in in time"
+  login-message: "You are kicked because you didn't logged-in in time"
   register-message: "You are kicked because you did not registered in time"
 

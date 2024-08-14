@@ -11,14 +11,11 @@ public class TabComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-
-        if (sender.hasPermission("AuthBB.reload")) {
-            completions.add("reload");
+        if(args.length == 1) {
             completions.add("help");
-        }else {
-            completions.add("help");
+        }else{
+            completions.clear();
         }
-
         return completions;
     }
 }

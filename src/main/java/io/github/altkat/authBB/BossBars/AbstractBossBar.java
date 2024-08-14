@@ -1,12 +1,10 @@
 package io.github.altkat.authBB.BossBars;
 
-import fr.xephi.authme.AuthMe;
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Handlers.TeleportHandler;
-import io.github.altkat.authBB.Variables;
+import io.github.altkat.authBB.Handlers.ConnectionHandler;
+import io.github.altkat.authBB.Handlers.Connections;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.boss.BarColor;
 import org.bukkit.boss.BarStyle;
 import org.bukkit.boss.BossBar;
@@ -14,19 +12,17 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Map;
-
 public abstract class AbstractBossBar {
     protected final ConfigurationSection section;
     protected final AuthBB plugin;
     protected final AuthMeApi authMe;
-    protected final TeleportHandler teleportHandler;
+    protected final ConnectionHandler connectionHandler;
 
     public AbstractBossBar(AuthBB plugin, String sectionName) {
         this.plugin = plugin;
-        this.section = Variables.config.getConfigurationSection(sectionName);
+        this.section = Connections.config.getConfigurationSection(sectionName);
         this.authMe = AuthMeApi.getInstance();
-        this.teleportHandler = Variables.teleportHandler;
+        this.connectionHandler = Connections.connectionHandler;
     }
 
     public void createBB(Player player) {
@@ -78,9 +74,9 @@ public abstract class AbstractBossBar {
                     bossBar.removePlayer(player);
                     player.resetTitle();
                     cancel();
-                    if(Variables.config.getConfigurationSection("Bungee").getBoolean("enabled")){
-                        Variables.teleportTitle.sendTitle(player);
-                        teleportHandler.teleportServer(player, Variables.config.getConfigurationSection("Bungee").getString("server"));
+                    if(Connections.config.getConfigurationSection("Bungee").getBoolean("enabled")){
+                        Connections.connectionTitle.sendTitle(player);
+                        connectionHandler.connectServer(player, Connections.config.getConfigurationSection("Bungee").getString("server"));
                     }
                 }
             }

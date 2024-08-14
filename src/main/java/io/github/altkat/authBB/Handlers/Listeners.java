@@ -1,13 +1,12 @@
-package io.github.altkat.authBB;
+package io.github.altkat.authBB.Handlers;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
-import io.github.altkat.authBB.BossBars.AbstractBossBar;
+import io.github.altkat.authBB.AuthBB;
 import io.github.altkat.authBB.BossBars.LoginBossBar;
 import io.github.altkat.authBB.BossBars.RegisterBossBar;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
 import org.bukkit.Bukkit;
-import org.bukkit.Server;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,10 +22,10 @@ public class Listeners implements Listener {
 
     public Listeners(AuthBB plugin){
         this.plugin = plugin;
-        this.loginBossBar = Variables.loginBossBar;
-        this.registerBossBar = Variables.registerBossBar;
-        this.loginTitle = Variables.loginTitle;
-        this.registerTitle = Variables.registerTitle;
+        this.loginBossBar = Connections.loginBossBar;
+        this.registerBossBar = Connections.registerBossBar;
+        this.loginTitle = Connections.loginTitle;
+        this.registerTitle = Connections.registerTitle;
         this.authMe = AuthMeApi.getInstance();
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }

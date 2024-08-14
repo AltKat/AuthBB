@@ -1,21 +1,16 @@
 package io.github.altkat.authBB.Commands;
 
-import io.github.altkat.authBB.Variables;
+import io.github.altkat.authBB.Handlers.Connections;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class ServerCommand implements CommandExecutor {
-    protected ConfigurationSection section = Variables.config.getConfigurationSection("Bungee");
+    protected ConfigurationSection section = Connections.config.getConfigurationSection("Bungee");
     String onlyPlayers = section.getString("only-players").replace("&", "§");
     String nopermission = section.getString("no-permission").replace("&", "§");
-    String teleporting = section.getString("teleporting").replace("&", "§");
     String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
     String disabled = section.getString("disabled").replace("&", "§");
     String serverNotFound = section.getString("server-not-found").replace("&", "§");
@@ -37,7 +32,7 @@ public class ServerCommand implements CommandExecutor {
                 if(!strings[0].equals(section.getString("server"))){
                     commandSender.sendMessage(serverNotFound);
                 }else if (commandSender.hasPermission("AuthBB.server")) {
-                    Variables.teleportHandler.teleportServer(((Player) commandSender).getPlayer(), strings[0]);
+                    Connections.connectionHandler.connectServer(((Player) commandSender).getPlayer(), strings[0]);
                     return true;
                 }
 
