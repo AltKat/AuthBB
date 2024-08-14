@@ -1,7 +1,8 @@
 name: AuthBB
-version: '1.0'
+version: '1.1'
 main: io.github.altkat.authBB.AuthBB
 api-version: '1.21'
+author: AltKat(StreetMelodeez)
 commands:
   authbb:
     description: general command
@@ -9,10 +10,10 @@ commands:
     aliases:
       - authbossbar
   server:
-    description: Sends to bungeecord server.
+    description: Sends to lobby server.
     usage: /server servername
     permission: AuthBB.server
   send:
-    description: Sends players to bungeecord server.
+    description: Sends players to lobby server.
     usage: /send player server
     permission: AuthBB.send
