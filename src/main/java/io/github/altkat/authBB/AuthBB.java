@@ -19,7 +19,7 @@ import java.util.Objects;
 public final class AuthBB extends JavaPlugin {
     FileConfiguration config = getConfig();
 
-    public void loadVariables(){
+    public void loadConnections(){
         Connections.config = getConfig();
         Connections.connectionHandler = new ConnectionHandler(this, "Bungee");
         Connections.loginBossBar = new LoginBossBar(this);
@@ -43,7 +43,7 @@ public final class AuthBB extends JavaPlugin {
             return;
         }
 
-        loadVariables();
+        loadConnections();
         new Listeners(this);
 
         if (Connections.config.getConfigurationSection("Bungee").getBoolean("enabled")) {
