@@ -86,3 +86,23 @@ Kick:
   login-message: "You are kicked because you didn't logged-in in time"
   register-message: "You are kicked because you did not registered in time"
 
+Extras:
+  teleport-on-join: true #This will immediately teleport the player to the location specified below after joining the server.
+  teleport-coordinates:
+    - -0.505 #x coordinate
+    - 1.0    #y coordinate
+    - -0.460 #z coordinate
+    - 0.0    #yaw value
+    - -2.0   #pitch value
+    -
+  makeInvisible: true #Should I give players the invisibility effect?
+
+  #If your spawn point is in the void, if players are not standing on a block at the spawnpoint, and they are falling off on join, please do not enable this option.
+  preventMovement: true #Should I prevent players from moving? AuthMe already handles this for pre-login; this can be used to prevent players from moving after they have logged in.
+
+  disableChat: true #Should I prevent players from sending messages? AuthMe already handles this while players are not authenticated; this can be used to prevent players from sending messages after they have logged in.
+
+  removeJoinMessage: true #Should I remove join messages? AuthMe has this option as well.
+
+  removeLeaveMessage: true #Should I remove left messages? AuthMe has this option as well.
+
