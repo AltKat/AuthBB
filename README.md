@@ -41,6 +41,7 @@ This plugin has only been tested on versions 1.16.5 - 1.21. While I cannot guara
 **Server Command**  
 ![Server Command Full](https://altkat.github.io/AuthBB/server%20command.gif)
 ![Server Command](https://altkat.github.io/AuthBB/update/server.png)
+
 **Send Command**  
 ![Send Command Full](https://altkat.github.io/AuthBB/send%20command.gif)
 ![Server Command](https://altkat.github.io/AuthBB/update/send.png)
