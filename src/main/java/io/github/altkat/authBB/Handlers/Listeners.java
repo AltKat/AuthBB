@@ -1,7 +1,6 @@
 package io.github.altkat.authBB.Handlers;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
-import fr.xephi.authme.events.AuthMeAsyncPreLoginEvent;
 import io.github.altkat.authBB.AuthBB;
 import io.github.altkat.authBB.BossBars.LoginBossBar;
 import io.github.altkat.authBB.BossBars.RegisterBossBar;
@@ -11,11 +10,9 @@ import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
@@ -23,7 +20,6 @@ import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Listeners implements Listener {
@@ -70,7 +66,6 @@ public class Listeners implements Listener {
             player.teleport(returnLocation(player.getWorld()));
         }
 
-        event.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
         if (section.getBoolean("makeInvisible")) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, -1, 0, false, false));
         }
@@ -84,6 +79,7 @@ public class Listeners implements Listener {
     public void onPlayerLeave(PlayerQuitEvent event) {
         if (section.getBoolean("removeLeaveMessage")) {
             event.setQuitMessage("");
+            event.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
         }
     }
 

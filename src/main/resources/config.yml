@@ -1,21 +1,21 @@
 ###################################################################################################################################################
-##                                           This plugin made by Altkat(StreetMelodeez) V1.1                                                     ##
+##                                           This plugin made by Altkat(StreetMelodeez) V1.3                                                     ##
 ##                                   Feel free to contact me for anything on discord: streetmelodeez                                             ##
 ##  Please consider using a plugin manager(PlugManX) to reload the plugin, or restart the server after you changed something in the config file. ##
 ###################################################################################################################################################
 
-#This option is for bungee, velocity and any other bungee like systems.
-#It will connect players after they successfully logged-in or registered to the stated server in the server section below.
-#Please make sure you write server name exactly the same as in your configuration file.
-Bungee:
-  enabled: true
-  server: lobby
-  delay: 3
+#This option is for bungeecord, velocity and any other proxy systems.
+#It will connect players after they successfully logged-in or registered to the stated server(s) in the servers section below.
+#Please make sure you write server name exactly the same as in your proxy configuration file.
+Proxy:
+  enabled: false
+  servers:  #If you have multiple lobby servers you can add here as much as you want as shown, and it will send the player randomly one of the configured servers. Please remove the other servers if you only have one lobby server.
+    - lobby
+    - lobby2
+  delay: 3  #How many seconds should I wait before sending a player to the desired server(s) after they have logged in?
 
-#These are the messages for bungee connecting and commands.
+#These are the messages for proxy connecting and commands.
 #%_% parts are placeholders please include them in your sentences as they are in the default config.
-#You are free to remove the placeholders they won't affect the plugin.
-#If you want to remove a message please do not delete the whole line just leave it blank as ' '.
   error: "&cAn error occurred while connecting you, please try to use &a/server command &cif that's not working please contact to an admin."
   success: "&aYou're being connected to the server. If the server has not connected you yet you can use &b/server &acommand."
   error-command: "&cAn error occurred while connecting you, please make sure you are writing one of the following server name(s): &a%server_name%."
@@ -30,6 +30,8 @@ Bungee:
   send-success-sent: "&aYou are being connected to the lobby by an admin."
   player-not-found: "&4Player not found!"
   server-not-found: "&4Server not found!"
+  wrong-configuration-player: "&4There is something wrong with the authbb proxy configuration, please contact to an admin."
+  wrong-configuration-console: "&4There is something wrong with your authbb proxy configuration, please make sure you have set everything correct in the server section. It seems like you have a server in server(s) section above which is not in your proxy config file."
   not-authenticated: "&4Player is not authenticated!"
   player-already-connecting: "&4Player already being connected!"
 
@@ -70,7 +72,7 @@ RegisterTitle:
   fadeout: 2
 
 #This is the title shown when a player are being connected to the server.
-#Only works if bungee is enabled above.
+#Only works if proxy is enabled above.
 ConnectingTitle:
   title: "&fConnecting"
   subtitle: "&cYou are being connected to the lobby"
@@ -82,27 +84,26 @@ ConnectingTitle:
 #If enabled players will be kicked out when they are not logged in or registered in the specified seconds above in the bossbar section.
 #If you disabled kick feature and using AuthMe's kick feature please make sure you match bossbar time's with the AuthMe's kick time.
 Kick:
-  enabled: true
+  enabled: false
   login-message: "You are kicked because you didn't logged-in in time"
   register-message: "You are kicked because you did not registered in time"
 
 Extras:
-  teleport-on-join: true #This will immediately teleport the player to the location specified below after joining the server.
+  teleport-on-join: false #This will immediately teleport the player to the location specified below after joining the server.
   teleport-coordinates:
-    - -0.505 #x coordinate
-    - 1.0    #y coordinate
-    - -0.460 #z coordinate
-    - 0.0    #yaw value
-    - -2.0   #pitch value
-    -
-  makeInvisible: true #Should I give players the invisibility effect?
+    - 0.0 #x coordinate
+    - 0.0 #y coordinate
+    - 0.0 #z coordinate
+    - 0.0 #yaw value
+    - 0.0 #pitch value
+  makeInvisible: false #Should I give players the invisibility effect?
 
   #If your spawn point is in the void, if players are not standing on a block at the spawnpoint, and they are falling off on join, please do not enable this option.
-  preventMovement: true #Should I prevent players from moving? AuthMe already handles this for pre-login; this can be used to prevent players from moving after they have logged in.
+  preventMovement: false #Should I prevent players from moving? AuthMe already handles this while players are not authenticated; this can be used to prevent players from moving after they have logged in.
 
-  disableChat: true #Should I prevent players from sending messages? AuthMe already handles this while players are not authenticated; this can be used to prevent players from sending messages after they have logged in.
+  disableChat: false #Should I prevent players from sending messages? AuthMe already handles this while players are not authenticated; this can be used to prevent players from sending messages after they have logged in.
 
-  removeJoinMessage: true #Should I remove join messages? AuthMe has this option as well.
+  removeJoinMessage: false #Should I remove join messages?
 
-  removeLeaveMessage: true #Should I remove left messages? AuthMe has this option as well.
+  removeLeaveMessage: false #Should I remove left messages?
 

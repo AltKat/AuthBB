@@ -12,10 +12,11 @@ public class TabCompleteServer implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        if(Connections.config.getConfigurationSection("Bungee").getBoolean("enabled")) {
+        List<String> list = Connections.config.getConfigurationSection("Proxy").getStringList("servers");
+        if(Connections.config.getConfigurationSection("Proxy").getBoolean("enabled")) {
             if (sender.hasPermission("AuthBB.server")) {
                 if(args.length == 1) {
-                    completions.add(Connections.config.getConfigurationSection("Bungee").getString("server"));
+                    completions.addAll(list);
                 }else {
                     completions.clear();
                 }

@@ -8,7 +8,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class ServerCommand implements CommandExecutor {
-    protected ConfigurationSection section = Connections.config.getConfigurationSection("Bungee");
+    protected ConfigurationSection section = Connections.config.getConfigurationSection("Proxy");
     String onlyPlayers = section.getString("only-players").replace("&", "§");
     String nopermission = section.getString("no-permission").replace("&", "§");
     String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
@@ -20,6 +20,7 @@ public class ServerCommand implements CommandExecutor {
 
                 if (!(commandSender instanceof Player)) {
                     commandSender.sendMessage(onlyPlayers);
+                    return true;
                 }
                 if (!commandSender.hasPermission("AuthBB.server")) {
                     commandSender.sendMessage(nopermission);
@@ -29,7 +30,7 @@ public class ServerCommand implements CommandExecutor {
                     commandSender.sendMessage(wrongUsage);
                     return true;
                 }
-                if(!strings[0].equals(section.getString("server"))){
+                if(!(section.getStringList("servers").contains(strings[0]))){
                     commandSender.sendMessage(serverNotFound);
                 }else if (commandSender.hasPermission("AuthBB.server")) {
                     Connections.connectionHandler.connectServer(((Player) commandSender).getPlayer(), strings[0]);

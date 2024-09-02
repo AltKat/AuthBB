@@ -14,17 +14,18 @@ public class TabCompleteSend implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender sender, Command command, String alias, String[] args) {
         List<String> completions = new ArrayList<>();
-        //if(Variables.config.getConfigurationSection("Bungee").getBoolean("enabled")) {
+        List<String> list = Connections.config.getConfigurationSection("Proxy").getStringList("servers");
+        if(Connections.config.getConfigurationSection("Proxy").getBoolean("enabled")) {
             if (sender.hasPermission("AuthBB.send")) {
                 if(args.length == 1) {
                     for (Player player : Bukkit.getServer().getOnlinePlayers()) {
                         completions.add(player.getName());
                     }
                 }else if(args.length == 2) {
-                    completions.addLast(Connections.config.getConfigurationSection("Bungee").getString("server"));
+                    completions.addAll(list);
                 }
             }
+        }
         return completions;
-        //}
     }
 }

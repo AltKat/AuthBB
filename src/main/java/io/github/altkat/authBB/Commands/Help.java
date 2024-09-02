@@ -13,7 +13,7 @@ public class Help implements CommandExecutor {
         this.plugin = plugin;
     }
 
-    protected ConfigurationSection section = Connections.config.getConfigurationSection("Bungee");
+    protected ConfigurationSection section = Connections.config.getConfigurationSection("Proxy");
 
     String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
     @Override
@@ -26,7 +26,6 @@ public class Help implements CommandExecutor {
             if(strings[0].equals("help")){
                 if(commandSender.hasPermission("AuthBB.help")){
                     commandSender.sendMessage("§b==========[ AuthBossBar Admin HELP ]==========");
-                    commandSender.sendMessage("  §f/authbossbar reload: Reloads the Plugin");
                     commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server");
                     commandSender.sendMessage("  §f/send player (server name): Sends selected player to the lobby server");
                     commandSender.sendMessage("  §f/AuthBB help: Shows help page.");

@@ -12,8 +12,9 @@ import org.bukkit.entity.Player;
 
 public class SendCommand implements CommandExecutor {
     protected AuthBB plugin;
-    protected ConfigurationSection section = Connections.config.getConfigurationSection("Bungee");
+    protected ConfigurationSection section = Connections.config.getConfigurationSection("Proxy");
     protected final AuthMeApi authMe;
+
     public SendCommand(AuthBB plugin){
         this.plugin = plugin;
         this.authMe = AuthMeApi.getInstance();
@@ -43,7 +44,7 @@ public class SendCommand implements CommandExecutor {
                 return true;
             }
 
-            if(!strings[1].equals(section.getString("server"))){
+            if(!section.getStringList("servers").contains(strings[1])){
                 commandSender.sendMessage(serverNotFound);
                 return true;
             }
@@ -54,8 +55,9 @@ public class SendCommand implements CommandExecutor {
                 }else if(Connections.sending.contains(player)){
                     commandSender.sendMessage(playerAlreadyConnecting);
                 } else{
+                    plugin.getLogger().info("Sending player " + player.getName() + " to server " + strings[1]);
                     Connections.connectionHandler.connectServer(player, strings[1]);
-                    commandSender.sendMessage((sendSuccessSender).replace("%player%", player.getName()).replace("%server%", strings[1]).replace("&", "§"));
+                    commandSender.sendMessage(sendSuccessSender.replace("%player%", player.getName()).replace("%server%", strings[1]).replace("&", "§"));
                     player.sendMessage(sendSuccessSent);
                 }
             }else{

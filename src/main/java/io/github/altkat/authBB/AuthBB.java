@@ -21,7 +21,7 @@ public final class AuthBB extends JavaPlugin {
 
     public void loadConnections(){
         Connections.config = getConfig();
-        Connections.connectionHandler = new ConnectionHandler(this, "Bungee");
+        Connections.connectionHandler = new ConnectionHandler(this, "Proxy");
         Connections.loginBossBar = new LoginBossBar(this);
         Connections.registerBossBar = new RegisterBossBar(this);
         Connections.loginTitle = new LoginTitle(this);
@@ -31,7 +31,6 @@ public final class AuthBB extends JavaPlugin {
     }
     @Override
     public void onEnable() {
-        // Plugin startup logic
         loadConfig();
         loadConfig();
         if (getServer().getPluginManager().getPlugin("AuthMe") != null) {
@@ -46,11 +45,11 @@ public final class AuthBB extends JavaPlugin {
         loadConnections();
         new Listeners(this);
 
-        if (Connections.config.getConfigurationSection("Bungee").getBoolean("enabled")) {
-            Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §aBungeecord support is enabled.");
+        if (Connections.config.getConfigurationSection("Proxy").getBoolean("enabled")) {
+            Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §aProxy support is enabled.");
             Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         }else{
-            Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §cBungeecord support is disabled, you can open it from the config file.");
+            Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy support is disabled, you can enable it from the config file.");
         }
 
 
@@ -71,7 +70,7 @@ public final class AuthBB extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §chas been disabled!");
     }
 
