@@ -19,7 +19,7 @@ public abstract class AbstractTitle {
         String subtitle = section.getString("subtitle", " ").replace("&", "§");
         Integer fadein = section.getInt("fadein", 1);
         Integer fadeout = section.getInt("fadeout", 1);
-        Integer stay = section.getInt("stay");
+        Integer stay = section.getInt("stay", 1);
         player.sendTitle(title, subtitle, fadein*20, stay*20, fadeout*20);
     }
 }

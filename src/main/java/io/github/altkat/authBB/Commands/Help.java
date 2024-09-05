@@ -2,6 +2,7 @@ package io.github.altkat.authBB.Commands;
 
 import io.github.altkat.authBB.AuthBB;
 import io.github.altkat.authBB.Handlers.Connections;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -15,7 +16,7 @@ public class Help implements CommandExecutor {
 
     protected ConfigurationSection section = Connections.config.getConfigurationSection("Proxy");
 
-    String wrongUsage = section.getString("wrong-usage-server").replace("&", "§");
+    String wrongUsage = ChatColor.translateAlternateColorCodes('&', section.getString("wrong-usage-server"));
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
             if(strings.length == 0){

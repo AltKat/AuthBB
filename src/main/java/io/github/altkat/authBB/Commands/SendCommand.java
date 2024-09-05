@@ -4,6 +4,7 @@ import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
 import io.github.altkat.authBB.Handlers.Connections;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -20,15 +21,15 @@ public class SendCommand implements CommandExecutor {
         this.authMe = AuthMeApi.getInstance();
     }
 
-    String sendSuccessSender = section.getString("send-success-sender");
-    String sendSuccessSent = section.getString("send-success-sent").replace("&", "§");
-    String wrongUsage = section.getString("wrong-usage-send").replace("&", "§");
-    String playerNotFound = section.getString("player-not-found").replace("&", "§");
-    String noPermission = section.getString("no-permission").replace("&", "§");
-    String serverNotFound = section.getString("server-not-found").replace("&", "§");
-    String playerNotAuthenticated = section.getString("not-authenticated").replace("&", "§");
-    String playerAlreadyConnecting = section.getString("player-already-connecting").replace("&", "§");
-    String disabled = section.getString("disabled").replace("&", "§");
+    private final String sendSuccessSender = ChatColor.translateAlternateColorCodes('&', section.getString("send-success-sender"));
+    private final String sendSuccessSent = ChatColor.translateAlternateColorCodes('&', section.getString("send-success-sent"));
+    private final String wrongUsage = ChatColor.translateAlternateColorCodes('&', section.getString("wrong-usage-send"));
+    private final String playerNotFound = ChatColor.translateAlternateColorCodes('&', section.getString("player-not-found"));
+    private final String noPermission = ChatColor.translateAlternateColorCodes('&', section.getString("no-permission"));
+    private final String serverNotFound = ChatColor.translateAlternateColorCodes('&', section.getString("server-not-found"));
+    private final String playerNotAuthenticated = ChatColor.translateAlternateColorCodes('&', section.getString("not-authenticated"));
+    private final String playerAlreadyConnecting = ChatColor.translateAlternateColorCodes('&', section.getString("player-already-connecting"));
+    private final String disabled = ChatColor.translateAlternateColorCodes('&', section.getString("disabled"));
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {

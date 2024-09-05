@@ -53,13 +53,19 @@ public class Listeners implements Listener {
     public void onPlayerJoin(PlayerJoinEvent event) {
         Player player = event.getPlayer();
 
-        if (authMe.isRegistered(player.getName())) {
-            this.loginTitle.sendTitle(player);
-            this.loginBossBar.createBB(player);
-        } else {
-            this.registerTitle.sendTitle(player);
-            this.registerBossBar.createBB(player);
-        }
+        Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
+            if (authMe.isRegistered(player.getName())) {
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    loginTitle.sendTitle(player);
+                    loginBossBar.createBB(player);
+                });
+            } else {
+                Bukkit.getScheduler().runTask(plugin, () -> {
+                    registerTitle.sendTitle(player);
+                    registerBossBar.createBB(player);
+                });
+            }
+        });
 
 
         if (section.getBoolean("teleport-on-join")) {
