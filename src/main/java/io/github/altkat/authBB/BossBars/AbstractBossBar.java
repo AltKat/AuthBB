@@ -2,9 +2,10 @@ package io.github.altkat.authBB.BossBars;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Commands.RandomServer;
+import io.github.altkat.authBB.Handlers.RandomServer;
 import io.github.altkat.authBB.Handlers.ConnectionHandler;
 import io.github.altkat.authBB.Handlers.Connections;
+import io.github.altkat.authBB.Handlers.RandomServer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 import org.bukkit.boss.BarColor;

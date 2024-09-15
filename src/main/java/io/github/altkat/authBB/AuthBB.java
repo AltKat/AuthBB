@@ -9,6 +9,7 @@ import io.github.altkat.authBB.Handlers.ConnectionHandler;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
 import io.github.altkat.authBB.Titles.ConnectionTitle;
+import org.bstats.bukkit.Metrics;
 import org.bukkit.Bukkit;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -31,6 +32,7 @@ public final class AuthBB extends JavaPlugin {
     }
     @Override
     public void onEnable() {
+        Metrics metrics = new Metrics(this, 23372);
         loadConfig();
         loadConfig();
         if (getServer().getPluginManager().getPlugin("AuthMe") != null) {
