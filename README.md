@@ -54,5 +54,5 @@ This plugin has only been tested on versions 1.16.5 - 1.21. While I cannot guara
 If you need any help or improvements with the plugin, please feel free to contact me.  
 Please report any problems with the plugin and share your suggestions so I can improve it.
 
-**Discord ID:** [streetmelodeez](https://altkat.github.io/AuthBB/login.gif)
+**Discord ID:** [streetmelodeez](https://discordapp.com/users/247441109888925697)
 
