@@ -13,15 +13,23 @@ public class ConfigUpdater {
 
     public static void update(AuthBB plugin) throws IOException {
         File configFile = new File(plugin.getDataFolder(), "config.yml");
-
         FileConfiguration defaultConfig = YamlConfiguration.loadConfiguration(new InputStreamReader(plugin.getResource("config.yml"), Charsets.UTF_8));
         FileConfiguration userConfig = YamlConfiguration.loadConfiguration(configFile);
+
+        boolean needsSave = false;
 
         for (String key : defaultConfig.getKeys(true)) {
             if (!userConfig.contains(key)) {
                 userConfig.set(key, defaultConfig.get(key));
+                needsSave = true;
             }
         }
-        userConfig.save(configFile);
+
+        if (needsSave) {
+            plugin.getLogger().info("Updating config.yml with new settings...");
+            userConfig.options().copyHeader(true);
+            userConfig.options().header(defaultConfig.options().header());
+            userConfig.save(configFile);
+        }
     }
 }

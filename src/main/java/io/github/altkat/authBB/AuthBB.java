@@ -55,6 +55,7 @@ public final class AuthBB extends JavaPlugin {
     }
 
     public void reload() {
+        saveDefaultConfig();
 
         try {
             ConfigUpdater.update(this);
@@ -63,7 +64,6 @@ public final class AuthBB extends JavaPlugin {
             e.printStackTrace();
         }
 
-        saveDefaultConfig();
         reloadConfig();
 
         if (getServer().getPluginManager().getPlugin("AuthMe") == null) {
@@ -73,7 +73,6 @@ public final class AuthBB extends JavaPlugin {
         }
 
         initializeManagers();
-
         setupProxy();
     }
 
