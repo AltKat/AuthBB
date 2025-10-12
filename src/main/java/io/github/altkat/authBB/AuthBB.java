@@ -4,7 +4,6 @@ import io.github.altkat.authBB.BossBars.LoginBossBar;
 import io.github.altkat.authBB.BossBars.RegisterBossBar;
 import io.github.altkat.authBB.Commands.*;
 import io.github.altkat.authBB.Handlers.ConnectionHandler;
-import io.github.altkat.authBB.Handlers.Connections;
 import io.github.altkat.authBB.Handlers.Listeners;
 import io.github.altkat.authBB.Handlers.MessageManager;
 import io.github.altkat.authBB.Titles.ConnectionTitle;
@@ -21,21 +20,22 @@ import java.util.Objects;
 
 public final class AuthBB extends JavaPlugin {
 
-    public void loadConnections(){
-        Connections.config = getConfig();
-        Connections.connectionHandler = new ConnectionHandler(this, "Proxy");
-        Connections.loginBossBar = new LoginBossBar(this);
-        Connections.registerBossBar = new RegisterBossBar(this);
-        Connections.loginTitle = new LoginTitle(this);
-        Connections.registerTitle = new RegisterTitle(this);
-        Connections.connectionTitle = new ConnectionTitle(this);
-    }
+    private ConnectionHandler connectionHandler;
+    private MessageManager messageManager;
+    private LoginBossBar loginBossBar;
+    private RegisterBossBar registerBossBar;
+    private LoginTitle loginTitle;
+    private RegisterTitle registerTitle;
+    private ConnectionTitle connectionTitle;
+    private boolean isProxyModeActive = false;
 
     @Override
     public void onEnable() {
         new Metrics(this, 23372);
-        loadConfig();
+        saveDefaultConfig();
+        reloadConfig();
 
+        initializeManagers();
 
         if (getServer().getPluginManager().getPlugin("AuthMe") == null) {
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthMe is not installed! Disabling AuthBB...");
@@ -43,42 +43,58 @@ public final class AuthBB extends JavaPlugin {
             return;
         }
 
-        loadConnections();
-        MessageManager.loadMessages();
+        setupProxy();
+        registerListenersAndCommands();
 
-        new Listeners(this);
+        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aAuthBB has been enabled!");
+    }
 
-        boolean isProxyEnabledInConfig = getConfig().getConfigurationSection("Proxy").getBoolean("enabled");
+    @Override
+    public void onDisable() {
+        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthBB has been disabled!");
+    }
 
+    private void initializeManagers() {
+        this.messageManager = new MessageManager(this);
+        this.connectionHandler = new ConnectionHandler(this);
+        this.loginBossBar = new LoginBossBar(this);
+        this.registerBossBar = new RegisterBossBar(this);
+        this.loginTitle = new LoginTitle(this);
+        this.registerTitle = new RegisterTitle(this);
+        this.connectionTitle = new ConnectionTitle(this);
+    }
+
+    private void setupProxy() {
+        boolean isProxyEnabledInConfig = getConfig().getBoolean("Proxy.enabled", false);
         if (isProxyEnabledInConfig) {
             if (isProxyDetected()) {
-                Connections.isProxyModeActive = true;
+                this.isProxyModeActive = true;
                 getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aProxy mode is enabled. Server is running under a proxy (BungeeCord/Velocity).");
                 getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-                getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", Connections.connectionHandler);
+                getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.connectionHandler);
+            } else {
+                this.isProxyModeActive = false;
             }
-
         } else {
-            Connections.isProxyModeActive = false;
+            this.isProxyModeActive = false;
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy support is disabled in the config file.");
         }
+    }
 
+    private void registerListenersAndCommands() {
+        new Listeners(this);
         Objects.requireNonNull(getCommand("authbb")).setExecutor(new Help(this));
         Objects.requireNonNull(getCommand("authbb")).setTabCompleter(new TabComplete());
-
         PluginCommand serverCommand = getCommand("server");
         if (serverCommand != null) {
-            serverCommand.setExecutor(new ServerCommand());
-            serverCommand.setTabCompleter(new TabCompleteServer());
+            serverCommand.setExecutor(new ServerCommand(this));
+            serverCommand.setTabCompleter(new TabCompleteServer(this));
         }
-
         PluginCommand sendCommand = getCommand("send");
         if (sendCommand != null) {
             sendCommand.setExecutor(new SendCommand(this));
-            sendCommand.setTabCompleter(new TabCompleteSend());
+            sendCommand.setTabCompleter(new TabCompleteSend(this));
         }
-
-        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aAuthBB has been enabled!");
     }
 
     private boolean isProxyDetected() {
@@ -86,8 +102,7 @@ public final class AuthBB extends JavaPlugin {
         boolean isVelocity = isVelocitySupported();
 
         if (isBungee && isVelocity) {
-            Connections.isProxyModeActive = false;
-            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §c[CRITICAL CONFIGURATION ERROR] Both BungeeCord and Velocity support are enabled at the same time!");
+            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §c[CRITICAL CONFIG ERROR] Both BungeeCord and Velocity support are enabled at the same time!");
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cThis will cause IP forwarding issues. Please choose ONLY ONE proxy type.");
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cRecommendation: If you use Velocity, set 'bungeecord: false' in spigot.yml.");
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy features will be disabled until this is fixed.");
@@ -98,7 +113,6 @@ public final class AuthBB extends JavaPlugin {
             return true;
         }
 
-        Connections.isProxyModeActive = false;
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eProxy mode is enabled in config.yml, but no proxy environment was detected.");
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eFor BungeeCord, set 'bungeecord: true' in spigot.yml.");
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eFor Velocity, enable velocity support in your proxy and server configs.");
@@ -106,14 +120,8 @@ public final class AuthBB extends JavaPlugin {
         return false;
     }
 
-    /**
-     * Checks only for Velocity support across all Paper versions.
-     * @return true if Velocity is enabled, false otherwise.
-     */
     private boolean isVelocitySupported() {
-        if (!PaperLib.isPaper()) {
-            return false;
-        }
+        if (!PaperLib.isPaper()) return false;
         try {
             Class<?> globalConfigClass = Class.forName("io.papermc.paper.configuration.GlobalConfiguration");
             Method getMethod = globalConfigClass.getMethod("get");
@@ -132,15 +140,12 @@ public final class AuthBB extends JavaPlugin {
         }
     }
 
-    @Override
-    public void onDisable() {
-        getServer().getMessenger().unregisterOutgoingPluginChannel(this);
-        getServer().getMessenger().unregisterIncomingPluginChannel(this);
-        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthBB has been disabled!");
-    }
-
-    public void loadConfig(){
-        saveDefaultConfig();
-        reloadConfig();
-    }
+    public ConnectionHandler getConnectionHandler() { return connectionHandler; }
+    public MessageManager getMessageManager() { return messageManager; }
+    public LoginBossBar getLoginBossBar() { return loginBossBar; }
+    public RegisterBossBar getRegisterBossBar() { return registerBossBar; }
+    public LoginTitle getLoginTitle() { return loginTitle; }
+    public RegisterTitle getRegisterTitle() { return registerTitle; }
+    public ConnectionTitle getConnectionTitle() { return connectionTitle; }
+    public boolean isProxyModeActive() { return isProxyModeActive; }
 }

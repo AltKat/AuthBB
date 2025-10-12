@@ -2,8 +2,6 @@ package io.github.altkat.authBB.Commands;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Handlers.Connections;
-import io.github.altkat.authBB.Handlers.MessageManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,53 +9,53 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class SendCommand implements CommandExecutor {
-    protected AuthBB plugin;
-    protected final AuthMeApi authMe;
+    private final AuthBB plugin;
+    private final AuthMeApi authMe;
 
-    public SendCommand(AuthBB plugin){
+    public SendCommand(AuthBB plugin) {
         this.plugin = plugin;
         this.authMe = AuthMeApi.getInstance();
     }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if (!Connections.isProxyModeActive) {
-            commandSender.sendMessage(MessageManager.DISABLED);
+        if (!plugin.isProxyModeActive()) {
+            commandSender.sendMessage(plugin.getMessageManager().DISABLED);
             return true;
         }
 
-        if(!commandSender.hasPermission("AuthBB.send")){
-            commandSender.sendMessage(MessageManager.NO_PERMISSION);
+        if (!commandSender.hasPermission("AuthBB.send")) {
+            commandSender.sendMessage(plugin.getMessageManager().NO_PERMISSION);
             return true;
         }
 
-        if(strings.length < 2){
-            commandSender.sendMessage(MessageManager.WRONG_USAGE_SEND);
+        if (strings.length < 2) {
+            commandSender.sendMessage(plugin.getMessageManager().WRONG_USAGE_SEND);
             return true;
         }
 
-        Player player = Bukkit.getPlayerExact(strings[0]);
-        if(player == null){
-            commandSender.sendMessage(MessageManager.PLAYER_NOT_FOUND);
+        Player targetPlayer = Bukkit.getPlayerExact(strings[0]);
+        if (targetPlayer == null) {
+            commandSender.sendMessage(plugin.getMessageManager().PLAYER_NOT_FOUND);
             return true;
         }
 
-        if(!Connections.config.getConfigurationSection("Proxy").getStringList("servers").contains(strings[1])){
-            commandSender.sendMessage(MessageManager.SERVER_NOT_FOUND);
+        String targetServer = strings[1];
+        if (!plugin.getConfig().getStringList("Proxy.servers").contains(targetServer)) {
+            commandSender.sendMessage(plugin.getMessageManager().SERVER_NOT_FOUND);
             return true;
         }
 
-        if(!authMe.isAuthenticated(player)){
-            commandSender.sendMessage(MessageManager.PLAYER_NOT_AUTHENTICATED);
-        } else if(Connections.sending.contains(player)){
-            commandSender.sendMessage(MessageManager.PLAYER_ALREADY_CONNECTING);
+        if (!authMe.isAuthenticated(targetPlayer)) {
+            commandSender.sendMessage(plugin.getMessageManager().PLAYER_NOT_AUTHENTICATED);
+        } else if (plugin.getConnectionHandler().isPlayerSending(targetPlayer)) {
+            commandSender.sendMessage(plugin.getMessageManager().PLAYER_ALREADY_CONNECTING);
         } else {
-            plugin.getLogger().info("Sending player " + player.getName() + " to server " + strings[1]);
-            Connections.connectionHandler.connectServer(player, strings[1]);
-            commandSender.sendMessage(MessageManager.SEND_SUCCESS_SENDER.replace("%player%", player.getName()).replace("%server%", strings[1]));
-            player.sendMessage(MessageManager.SEND_SUCCESS_SENT);
+            plugin.getLogger().info("Sending player " + targetPlayer.getName() + " to server " + targetServer);
+            plugin.getConnectionHandler().connectServer(targetPlayer, targetServer);
+            commandSender.sendMessage(plugin.getMessageManager().SEND_SUCCESS_SENDER.replace("%player%", targetPlayer.getName()).replace("%server%", targetServer));
+            targetPlayer.sendMessage(plugin.getMessageManager().SEND_SUCCESS_SENT);
         }
-
         return true;
     }
 }

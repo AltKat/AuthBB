@@ -1,22 +1,26 @@
 package io.github.altkat.authBB.Handlers;
 
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Handlers.Connections;
-import java.util.List;
 import org.bukkit.configuration.ConfigurationSection;
 
+import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
+
 public class RandomServer {
-    protected AuthBB plugin;
-    protected ConfigurationSection section;
+    private final AuthBB plugin;
+    private final ConfigurationSection proxySection;
 
     public RandomServer(AuthBB plugin) {
         this.plugin = plugin;
-        this.section = Connections.config.getConfigurationSection("Proxy");
+        this.proxySection = plugin.getConfig().getConfigurationSection("Proxy");
     }
 
-    public String randomServer() {
-        List<String> list = this.section.getStringList("servers");
-        int randomInt = (int)(Math.random() * (double)list.size());
-        return (String)list.get(randomInt);
+    public String getRandomServer() {
+        List<String> serverList = this.proxySection.getStringList("servers");
+        if (serverList.isEmpty()) {
+            return null;
+        }
+        int randomIndex = ThreadLocalRandom.current().nextInt(serverList.size());
+        return serverList.get(randomIndex);
     }
 }

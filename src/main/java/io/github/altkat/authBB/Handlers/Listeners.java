@@ -2,10 +2,6 @@ package io.github.altkat.authBB.Handlers;
 
 import fr.xephi.authme.api.v3.AuthMeApi;
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.BossBars.LoginBossBar;
-import io.github.altkat.authBB.BossBars.RegisterBossBar;
-import io.github.altkat.authBB.Titles.LoginTitle;
-import io.github.altkat.authBB.Titles.RegisterTitle;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -23,31 +19,16 @@ import org.bukkit.potion.PotionEffectType;
 import java.util.List;
 
 public class Listeners implements Listener {
-    protected ConfigurationSection section = Connections.config.getConfigurationSection("Extras");
-    private final LoginBossBar loginBossBar;
-    private final RegisterBossBar registerBossBar;
-    private final LoginTitle loginTitle;
-    private final RegisterTitle registerTitle;
-    private final AuthMeApi authMe;
     private final AuthBB plugin;
-
+    private final AuthMeApi authMe;
+    private final ConfigurationSection extrasSection;
 
     public Listeners(AuthBB plugin) {
         this.plugin = plugin;
-        this.loginBossBar = Connections.loginBossBar;
-        this.registerBossBar = Connections.registerBossBar;
-        this.loginTitle = Connections.loginTitle;
-        this.registerTitle = Connections.registerTitle;
         this.authMe = AuthMeApi.getInstance();
+        this.extrasSection = plugin.getConfig().getConfigurationSection("Extras");
         Bukkit.getPluginManager().registerEvents(this, plugin);
     }
-
-    private List<Float> coordinateList = section.getFloatList("teleport-coordinates");
-    private float x = coordinateList.get(0);
-    private float y = coordinateList.get(1);
-    private float z = coordinateList.get(2);
-    private float yaw = coordinateList.get(3);
-    private float pitch = coordinateList.get(4);
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -56,61 +37,76 @@ public class Listeners implements Listener {
         Bukkit.getScheduler().runTaskAsynchronously(plugin, () -> {
             if (authMe.isRegistered(player.getName())) {
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    loginTitle.sendTitle(player);
-                    loginBossBar.createBB(player);
+                    plugin.getLoginTitle().sendTitle(player);
+                    plugin.getLoginBossBar().createBB(player);
                 });
             } else {
                 Bukkit.getScheduler().runTask(plugin, () -> {
-                    registerTitle.sendTitle(player);
-                    registerBossBar.createBB(player);
+                    plugin.getRegisterTitle().sendTitle(player);
+                    plugin.getRegisterBossBar().createBB(player);
                 });
             }
         });
 
-
-        if (section.getBoolean("teleport-on-join")) {
+        if (extrasSection.getBoolean("teleport-on-join")) {
             player.teleport(returnLocation(player.getWorld()));
         }
 
-        if (section.getBoolean("makeInvisible")) {
+        if (extrasSection.getBoolean("makeInvisible")) {
             player.addPotionEffect(new PotionEffect(PotionEffectType.INVISIBILITY, -1, 0, false, false));
         }
 
-        if (section.getBoolean("removeJoinMessage")) {
+        if (extrasSection.getBoolean("removeJoinMessage")) {
             event.setJoinMessage("");
         }
     }
 
     @EventHandler
     public void onPlayerLeave(PlayerQuitEvent event) {
-        if (section.getBoolean("removeLeaveMessage")) {
+        if (extrasSection.getBoolean("removeLeaveMessage")) {
             event.setQuitMessage("");
-            event.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+            if(event.getPlayer().hasPotionEffect(PotionEffectType.INVISIBILITY)){
+                event.getPlayer().removePotionEffect(PotionEffectType.INVISIBILITY);
+            }
         }
     }
 
     @EventHandler
     public void onChat(AsyncPlayerChatEvent event){
-        if(section.getBoolean("disableChat")){
-            event.setCancelled(true);
+        if(extrasSection.getBoolean("disableChat")){
+            if (!authMe.isAuthenticated(event.getPlayer())) {
+                event.setCancelled(true);
+            }
         }
     }
 
     @EventHandler
     public void onMove(PlayerMoveEvent event){
-        if(section.getBoolean("preventMovement")) {
-            Location from = event.getFrom();
-            Location to = event.getTo();
-            if (to == null) {
-                return;
-            }
-            if (from.getX() != to.getX() || from.getZ() != to.getZ() || from.getY() != to.getY()) {
-                event.setTo(from);
+        if(extrasSection.getBoolean("preventMovement")) {
+            if (!authMe.isAuthenticated(event.getPlayer())) {
+                Location from = event.getFrom();
+                Location to = event.getTo();
+                if (to == null) {
+                    return;
+                }
+                if (from.getBlockX() != to.getBlockX() || from.getBlockZ() != to.getBlockZ()) {
+                    event.setTo(from);
+                }
             }
         }
     }
 
-    public Location returnLocation(World world){
+    private Location returnLocation(World world){
+        List<Double> coordinateList = extrasSection.getDoubleList("teleport-coordinates");
+        if (coordinateList.size() < 5) {
+            plugin.getLogger().warning("teleport-coordinates in config.yml is not configured correctly! Needs 5 values (x, y, z, yaw, pitch).");
+            return world.getSpawnLocation();
+        }
+        double x = coordinateList.get(0);
+        double y = coordinateList.get(1);
+        double z = coordinateList.get(2);
+        float yaw = coordinateList.get(3).floatValue();
+        float pitch = coordinateList.get(4).floatValue();
         return new Location(world, x, y, z, yaw, pitch);
     }
 }

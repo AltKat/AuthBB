@@ -1,41 +1,44 @@
 package io.github.altkat.authBB.Handlers;
 
+import io.github.altkat.authBB.AuthBB;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 
 public class MessageManager {
+    public final String ONLY_PLAYERS;
+    public final String NO_PERMISSION;
+    public final String WRONG_USAGE_SERVER;
+    public final String WRONG_USAGE_SEND;
+    public final String DISABLED;
+    public final String SERVER_NOT_FOUND;
+    public final String PLAYER_NOT_FOUND;
+    public final String PLAYER_NOT_AUTHENTICATED;
+    public final String PLAYER_ALREADY_CONNECTING;
+    public final String SEND_SUCCESS_SENDER;
+    public final String SEND_SUCCESS_SENT;
+    public final String WAIT;
 
-    public static String ONLY_PLAYERS;
-    public static String NO_PERMISSION;
-    public static String WRONG_USAGE_SERVER;
-    public static String WRONG_USAGE_SEND;
-    public static String DISABLED;
-    public static String SERVER_NOT_FOUND;
-    public static String PLAYER_NOT_FOUND;
-    public static String PLAYER_NOT_AUTHENTICATED;
-    public static String PLAYER_ALREADY_CONNECTING;
-    public static String SEND_SUCCESS_SENDER;
-    public static String SEND_SUCCESS_SENT;
+    public MessageManager(AuthBB plugin) {
+        ConfigurationSection proxySection = plugin.getConfig().getConfigurationSection("Proxy");
 
-    public static void loadMessages() {
-        ConfigurationSection proxySection = Connections.config.getConfigurationSection("Proxy");
-
-        ONLY_PLAYERS = translate(proxySection.getString("only-players"));
-        NO_PERMISSION = translate(proxySection.getString("no-permission"));
-        WRONG_USAGE_SERVER = translate(proxySection.getString("wrong-usage-server"));
-        WRONG_USAGE_SEND = translate(proxySection.getString("wrong-usage-send"));
-        DISABLED = translate(proxySection.getString("disabled"));
-        SERVER_NOT_FOUND = translate(proxySection.getString("server-not-found"));
-        PLAYER_NOT_FOUND = translate(proxySection.getString("player-not-found"));
-        PLAYER_NOT_AUTHENTICATED = translate(proxySection.getString("not-authenticated"));
-        PLAYER_ALREADY_CONNECTING = translate(proxySection.getString("player-already-connecting"));
-        SEND_SUCCESS_SENDER = translate(proxySection.getString("send-success-sender"));
-        SEND_SUCCESS_SENT = translate(proxySection.getString("send-success-sent"));
+        ONLY_PLAYERS = translate(proxySection, "only-players");
+        NO_PERMISSION = translate(proxySection, "no-permission");
+        WRONG_USAGE_SERVER = translate(proxySection, "wrong-usage-server");
+        WRONG_USAGE_SEND = translate(proxySection, "wrong-usage-send");
+        DISABLED = translate(proxySection, "disabled");
+        SERVER_NOT_FOUND = translate(proxySection, "server-not-found");
+        PLAYER_NOT_FOUND = translate(proxySection, "player-not-found");
+        PLAYER_NOT_AUTHENTICATED = translate(proxySection, "not-authenticated");
+        PLAYER_ALREADY_CONNECTING = translate(proxySection, "player-already-connecting");
+        SEND_SUCCESS_SENDER = translate(proxySection, "send-success-sender");
+        SEND_SUCCESS_SENT = translate(proxySection, "send-success-sent");
+        WAIT = translate(proxySection, "wait");
     }
 
-    private static String translate(String message) {
+    private String translate(ConfigurationSection section, String path) {
+        String message = section.getString(path);
         if (message == null) {
-            return "§cMessage not found in config.yml";
+            return ChatColor.RED + "Message not found in config.yml: Proxy." + path;
         }
         return ChatColor.translateAlternateColorCodes('&', message);
     }

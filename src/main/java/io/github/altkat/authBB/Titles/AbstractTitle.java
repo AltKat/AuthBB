@@ -1,25 +1,31 @@
 package io.github.altkat.authBB.Titles;
 
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Handlers.Connections;
+import org.bukkit.ChatColor;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractTitle {
-    protected final ConfigurationSection section;
     protected final AuthBB plugin;
+    protected final ConfigurationSection section;
 
     AbstractTitle(AuthBB plugin, String sectionName){
         this.plugin = plugin;
-        this.section = Connections.config.getConfigurationSection(sectionName);
+        this.section = plugin.getConfig().getConfigurationSection(sectionName);
     }
 
     public void sendTitle(Player player){
-        String title = section.getString("title", " ").replace("&", "§");
-        String subtitle = section.getString("subtitle", " ").replace("&", "§");
-        Integer fadein = section.getInt("fadein", 1);
-        Integer fadeout = section.getInt("fadeout", 1);
-        Integer stay = section.getInt("stay", 1);
-        player.sendTitle(title, subtitle, fadein*20, stay*20, fadeout*20);
+        if (section == null) {
+            plugin.getLogger().warning("Title configuration section '" + section.getName() + "' not found in config.yml!");
+            return;
+        }
+
+        String title = ChatColor.translateAlternateColorCodes('&', section.getString("title", " "));
+        String subtitle = ChatColor.translateAlternateColorCodes('&', section.getString("subtitle", " "));
+        int fadein = section.getInt("fadein", 1);
+        int stay = section.getInt("stay", 5);
+        int fadeout = section.getInt("fadeout", 2);
+
+        player.sendTitle(title, subtitle, fadein * 20, stay * 20, fadeout * 20);
     }
 }

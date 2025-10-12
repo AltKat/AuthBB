@@ -1,42 +1,38 @@
 package io.github.altkat.authBB.Commands;
 
 import io.github.altkat.authBB.AuthBB;
-import io.github.altkat.authBB.Handlers.Connections;
-import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.ConfigurationSection;
 
 public class Help implements CommandExecutor {
-    protected AuthBB plugin;
-    public Help(AuthBB plugin){
+    private final AuthBB plugin;
+
+    public Help(AuthBB plugin) {
         this.plugin = plugin;
     }
 
-    protected ConfigurationSection section = Connections.config.getConfigurationSection("Proxy");
-
-    String wrongUsage = ChatColor.translateAlternateColorCodes('&', section.getString("wrong-usage-server"));
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-            if(strings.length == 0){
-                commandSender.sendMessage("§b/AuthBB help");
-                return true;
-            }
+        if (strings.length == 0) {
+            commandSender.sendMessage("§b/AuthBB help");
+            return true;
+        }
 
-            if(strings[0].equals("help")){
-                if(commandSender.hasPermission("AuthBB.help")){
-                    commandSender.sendMessage("§b==========[ AuthBossBar Admin HELP ]==========");
-                    commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server");
-                    commandSender.sendMessage("  §f/send player (server name): Sends selected player to the lobby server");
-                    commandSender.sendMessage("  §f/AuthBB help: Shows help page.");
-                }else {
-                    commandSender.sendMessage("§b==========[ AuthBossBar HELP ]==========");
-                    commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server");
-                    commandSender.sendMessage("  §f/AuthBB help: Shows help page.");
-                }
+        if (strings[0].equalsIgnoreCase("help")) {
+            if (commandSender.hasPermission("AuthBB.help")) {
+                commandSender.sendMessage("§b==========[ AuthBossBar Admin HELP ]==========");
+                commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server.");
+                commandSender.sendMessage("  §f/send (player) (server name): Sends selected player to the lobby server.");
+                commandSender.sendMessage("  §f/AuthBB help: Shows this help page.");
+            } else {
+                commandSender.sendMessage("§b==========[ AuthBossBar HELP ]==========");
+                commandSender.sendMessage("  §f/server (server name): Sends you to the lobby server.");
+                commandSender.sendMessage("  §f/AuthBB help: Shows this help page.");
             }
-
+        } else {
+            commandSender.sendMessage(plugin.getMessageManager().WRONG_USAGE_SERVER.replace("server servername", "authbb help"));
+        }
 
         return true;
     }
