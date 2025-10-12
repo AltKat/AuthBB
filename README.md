@@ -4,10 +4,13 @@ AuthBB is a handy Spigot plugin that makes logging in and registering on your Mi
 
 ![AuthBB Login GIF](https://altkat.github.io/AuthBB/login.gif)
 
-## Important Notes:
-This plugin is built for modern Minecraft versions and has been tested on 1.16.5 - 1.21+. While it may work on other versions, compatibility is not guaranteed.
+<div align="center"><b>Important!</b></div><br>
+<div align="center">This plugin uses Java 17, if you are using another java version you may need to add this line to your batch file:<br>
+"<b>-DPaper.IgnoreJavaVersion=true ^</b>"​<br><br>
+</div>
 
-## Key Features:
+## Features:
+- **Tested on Minecraft versions** 1.16.5 - 1.21+.
 - **Login and Register Boss Bar:** Automatically creates a customizable boss bar with a countdown timer on the login and register screen, making the authentication process more engaging for players.
 - **Fully Customizable:** Offers extensive customization options for titles, boss bars, messages, and timers.
 - **Intelligent Proxy Teleport Support:** Automatically detects BungeeCord and Velocity environments. It also warns about critical misconfigurations (e.g., both enabled at once) and includes a `force-proxy` option for unsupported setups.
