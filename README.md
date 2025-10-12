@@ -72,7 +72,7 @@ If you need any help or have suggestion, please feel free to contact me.
 ```yaml
 # ######################################################################################################
 # ##                                                                                                  ##
-# ##   AuthBB v${project.version} by Altkat(StreetMelodeez)                                                          ##
+# ##   AuthBB v1.4 by Altkat(StreetMelodeez)                                                          ##
 # ##   Discord: streetmelodeez                                                                        ##
 # ##   Please use /authbb reload to apply changes.                                                    ##
 # ##                                                                                                  ##
