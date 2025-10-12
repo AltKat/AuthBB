@@ -43,9 +43,11 @@ public abstract class AbstractBossBar {
             kickmessage = plugin.getConfig().getString("Kick.register-message").replace("&", "§");
         }
 
-        BossBar existingBossBar = Bukkit.getBossBar(NamespacedKey.minecraft(player.getUniqueId().toString()));
+        NamespacedKey key = new NamespacedKey(plugin, player.getUniqueId().toString());
+        BossBar existingBossBar = Bukkit.getBossBar(key);
         if (existingBossBar != null) {
             existingBossBar.removePlayer(player);
+            Bukkit.removeBossBar(key);
         }
 
         BarColor barColor;
@@ -63,7 +65,7 @@ public abstract class AbstractBossBar {
             barStyle = BarStyle.SEGMENTED_10;
         }
 
-        BossBar bossBar = Bukkit.createBossBar(title, barColor, barStyle);
+        BossBar bossBar = Bukkit.createBossBar(key, title, barColor, barStyle);
         bossBar.addPlayer(player);
         bossBar.setVisible(true);
 
