@@ -21,6 +21,7 @@ Proxy:
     - lobby2
   # The delay in seconds before sending a player to a server after they have logged in.
   delay: 3
+  force-proxy: false #Set this true ONLY IF you are having AN ISSUE with proxy teleport.(It bypasses the bungee/velocity check and force enables the proxy mode)
 
 # ---------------------------------------------------------------------------------------------------- #
 # Boss Bar Settings

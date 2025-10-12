@@ -42,7 +42,7 @@ public final class AuthBB extends JavaPlugin {
                 getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eA new update is available! Version: " + newVersion);
                 getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eDownload it from: https://www.spigotmc.org/resources/authbb-enhanced-boss-bar-integration-for-authme-proxy-teleport-multi-lobby-support." + SPIGOT_RESOURCE_ID + "/");
             }else {
-                getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aYou are using the latest version of AuthBB! Version: " + this.getDescription().getVersion());
+                getServer().getConsoleSender().sendMessage("§f[AuthBB] You are using the latest version. (" + this.getDescription().getVersion() +")");
             }
         });
 
@@ -88,18 +88,29 @@ public final class AuthBB extends JavaPlugin {
 
     private void setupProxy() {
         boolean isProxyEnabledInConfig = getConfig().getBoolean("Proxy.enabled", false);
-        if (isProxyEnabledInConfig) {
-            if (isProxyDetected()) {
-                this.isProxyModeActive = true;
-                getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aProxy mode is enabled. Server is running under a proxy (BungeeCord/Velocity).");
-                getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
-                getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.connectionHandler);
-            } else {
-                this.isProxyModeActive = false;
-            }
-        } else {
+        boolean isForceProxyEnabledInConfig = getConfig().getBoolean("Proxy.force-proxy", false);
+
+        if (!isProxyEnabledInConfig) {
             this.isProxyModeActive = false;
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy support is disabled in the config file.");
+            return;
+        }
+
+        if (isForceProxyEnabledInConfig) {
+            this.isProxyModeActive = true;
+            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eForce Proxy mode is enabled. Skipping bungee/velocity checks! Forcing to enable the proxy mode.");
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.connectionHandler);
+            return;
+        }
+
+        if (isProxyDetected()) {
+            this.isProxyModeActive = true;
+            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aProxy mode is enabled. Server is running under a proxy (BungeeCord/Velocity).");
+            getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this.connectionHandler);
+        } else {
+            this.isProxyModeActive = false;
         }
     }
 
@@ -127,7 +138,7 @@ public final class AuthBB extends JavaPlugin {
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §c[CRITICAL CONFIG ERROR] Both BungeeCord and Velocity support are enabled at the same time!");
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cThis will cause IP forwarding issues. Please choose ONLY ONE proxy type.");
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cRecommendation: If you use Velocity, set 'bungeecord: false' in spigot.yml.");
-            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy features will be disabled until this is fixed.");
+            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy features will be disabled until this is fixed. (If you want to bypass this, set force-proxy to true in the config file.)");
             return false;
         }
 
@@ -138,7 +149,7 @@ public final class AuthBB extends JavaPlugin {
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eProxy mode is enabled in config.yml, but no proxy environment was detected.");
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eFor BungeeCord, set 'bungeecord: true' in spigot.yml.");
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eFor Velocity, enable velocity support in your proxy and server configs.");
-        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eProxy features will now be disabled to prevent errors.");
+        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eProxy features will now be disabled to prevent errors. (If you want to bypass this, set force-proxy to true in the config file.)");
         return false;
     }
 
