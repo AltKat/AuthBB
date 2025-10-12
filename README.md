@@ -68,3 +68,130 @@ If you need any help or have suggestion, please feel free to contact me.
 
 ---
 
+## Config File
+```yaml
+# ######################################################################################################
+# ##                                                                                                  ##
+# ##   AuthBB v${project.version} by Altkat(StreetMelodeez)                                                          ##
+# ##   Discord: streetmelodeez                                                                        ##
+# ##   Please use /authbb reload to apply changes.                                                    ##
+# ##                                                                                                  ##
+# ######################################################################################################
+
+# ---------------------------------------------------------------------------------------------------- #
+# Proxy Settings
+# Used for proxy systems like BungeeCord and Velocity.
+# ---------------------------------------------------------------------------------------------------- #
+Proxy:
+  # Set to 'true' to enable proxy features.
+  # Ensure your server is correctly configured in proxy mode (in spigot.yml or paper-global.yml).
+  enabled: false
+  # A list of lobby servers to send players to after they log in.
+  # If you add multiple servers, a random one will be chosen.
+  servers:
+    - lobby
+    - lobby2
+  # The delay in seconds before sending a player to a server after they have logged in.
+  delay: 3
+  force-proxy: false #Set this to true ONLY IF you are having AN ISSUE with proxy teleport.(It bypasses the bungee/velocity check and force enables the proxy mode)
+
+# ---------------------------------------------------------------------------------------------------- #
+# Boss Bar Settings
+# Configures the countdown boss bars shown to players on join.
+# IMPORTANT: Valid options for 'color': RED, YELLOW, BLUE, GREEN, PINK, PURPLE, WHITE.
+# IMPORTANT: Valid options for 'style': SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20.
+# ---------------------------------------------------------------------------------------------------- #
+LoginBossBar:
+  title: "&6Please login in &a%time% &6seconds."
+  color: "GREEN"
+  style: "SEGMENTED_10"
+  time: 30
+
+RegisterBossBar:
+  title: "&bPlease register in &a%time% &6seconds."
+  color: "BLUE"
+  style: "SEGMENTED_10"
+  time: 30
+
+# ---------------------------------------------------------------------------------------------------- #
+# Title Settings
+# Configures the large text titles shown to players on join or while connecting.
+# fadein, stay, and fadeout durations are in seconds.
+# ---------------------------------------------------------------------------------------------------- #
+LoginTitle:
+  title: "&6Please Login"
+  subtitle: "&f/login password"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+RegisterTitle:
+  title: "&bPlease register"
+  subtitle: "&f/register password password"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+# This title only works if 'Proxy.enabled' is set to true.
+ConnectingTitle:
+  title: "&fConnecting"
+  subtitle: "&cYou are being connected to the lobby"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+# ---------------------------------------------------------------------------------------------------- #
+# Kick System
+# ---------------------------------------------------------------------------------------------------- #
+Kick:
+  # If 'true', players will be kicked when the BossBar timer runs out.
+  # If you are using AuthMe's own kick feature, make sure the timings match to avoid conflicts.
+  enabled: false
+  login-message: "You were kicked because you didn't log in in time"
+  register-message: "You were kicked because you did not register in time"
+
+# ---------------------------------------------------------------------------------------------------- #
+# Extra Features
+# ---------------------------------------------------------------------------------------------------- #
+Extras:
+  # Instantly teleports the player to the coordinates below upon joining the server.
+  teleport-on-join: false
+  teleport-coordinates:
+    - 0.0 # x coordinate
+    - 0.0 # y coordinate
+    - 0.0 # z coordinate
+    - 0.0 # yaw value
+    - 0.0 # pitch value
+  # Gives players an invisibility effect until they log in.
+  makeInvisible: false
+
+  # If your spawn point is in the void and players are falling upon join, do not enable this option.
+  preventMovement: false # Prevents players from moving. AuthMe already handles this for unauthenticated players; this can be used to also prevent movement after they have logged in.
+
+  disableChat: false # Prevents players from sending messages. AuthMe already handles this for unauthenticated players; this can be used to also prevent messages after they have logged in.
+
+  # Removes the default join message when a player connects.
+  removeJoinMessage: false
+  # Removes the default quit message when a player disconnects.
+  removeLeaveMessage: false
+
+# ---------------------------------------------------------------------------------------------------- #
+# Language & Messages
+# All user-facing messages for commands and system feedback.
+# ---------------------------------------------------------------------------------------------------- #
+Messages:
+  only-players: "&4Only players can use this command!"
+  no-permission: "&4You don't have the permission to use this command!"
+  wrong-usage-server: "&cWrong usage! Please type &a/server servername."
+  wrong-usage-send: "&cWrong usage! Please type &a/send (player) (server)"
+  disabled: "&cThis feature is disabled in the config file."
+  send-success-sender: "&aYou are sending player %player% to the server %server%."
+  send-success-sent: "&aYou are being connected to the lobby by an admin."
+  player-not-found: "&4Player not found!"
+  server-not-found: "&4Server not found!"
+  not-authenticated: "&4Player is not authenticated!"
+  player-already-connecting: "&4Player is already being connected!"
+
+```
+
+
