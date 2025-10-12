@@ -20,4 +20,5 @@ public class Connections {
     public static RegisterTitle registerTitle;
     public static ConnectionTitle connectionTitle;
     public static ConnectionHandler connectionHandler;
+    public static boolean isProxyModeActive = false;
 }

@@ -33,39 +33,40 @@ public class SendCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if(section.getBoolean("enabled")){
-            if(strings.length < 2){
-                commandSender.sendMessage(wrongUsage);
-                return true;
-            }
+        if (!Connections.isProxyModeActive) {
+            commandSender.sendMessage(disabled);
+            return true;
+        }
 
-            Player player = Bukkit.getPlayerExact(strings[0]);
-            if(player == null){
-                commandSender.sendMessage(playerNotFound);
-                return true;
-            }
+        if(strings.length < 2){
+            commandSender.sendMessage(wrongUsage);
+            return true;
+        }
 
-            if(!section.getStringList("servers").contains(strings[1])){
-                commandSender.sendMessage(serverNotFound);
-                return true;
-            }
+        Player player = Bukkit.getPlayerExact(strings[0]);
+        if(player == null){
+            commandSender.sendMessage(playerNotFound);
+            return true;
+        }
 
-            if(commandSender.hasPermission("AuthBB.send")){
-                if(!authMe.isAuthenticated(player)){
-                    commandSender.sendMessage(playerNotAuthenticated);
-                }else if(Connections.sending.contains(player)){
-                    commandSender.sendMessage(playerAlreadyConnecting);
-                } else{
-                    plugin.getLogger().info("Sending player " + player.getName() + " to server " + strings[1]);
-                    Connections.connectionHandler.connectServer(player, strings[1]);
-                    commandSender.sendMessage(sendSuccessSender.replace("%player%", player.getName()).replace("%server%", strings[1]).replace("&", "§"));
-                    player.sendMessage(sendSuccessSent);
-                }
-            }else{
-                commandSender.sendMessage(noPermission);
+        if(!section.getStringList("servers").contains(strings[1])){
+            commandSender.sendMessage(serverNotFound);
+            return true;
+        }
+
+        if(commandSender.hasPermission("AuthBB.send")){
+            if(!authMe.isAuthenticated(player)){
+                commandSender.sendMessage(playerNotAuthenticated);
+            }else if(Connections.sending.contains(player)){
+                commandSender.sendMessage(playerAlreadyConnecting);
+            } else{
+                plugin.getLogger().info("Sending player " + player.getName() + " to server " + strings[1]);
+                Connections.connectionHandler.connectServer(player, strings[1]);
+                commandSender.sendMessage(sendSuccessSender.replace("%player%", player.getName()).replace("%server%", strings[1]).replace("&", "§"));
+                player.sendMessage(sendSuccessSent);
             }
         }else{
-            commandSender.sendMessage(disabled);
+            commandSender.sendMessage(noPermission);
         }
         return true;
     }

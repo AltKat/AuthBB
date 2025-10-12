@@ -101,8 +101,10 @@ public abstract class AbstractBossBar {
                     player.resetTitle();
                     cancel();
                     if(Connections.config.getConfigurationSection("Proxy").getBoolean("enabled")){
-                        Connections.connectionTitle.sendTitle(player);
-                        connectionHandler.connectServer(player, randomServer.randomServer());
+                        if(Connections.isProxyModeActive){
+                            Connections.connectionTitle.sendTitle(player);
+                            connectionHandler.connectServer(player, randomServer.randomServer());
+                        }
                     }
                 }
             }

@@ -28,6 +28,11 @@ public class ServerCommand implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if (!Connections.isProxyModeActive) {
+            commandSender.sendMessage(disabled);
+            return true;
+        }
+
         if (!commandSender.hasPermission("AuthBB.server")) {
             commandSender.sendMessage(noPermission);
             return true;
