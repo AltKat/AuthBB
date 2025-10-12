@@ -1,6 +1,7 @@
 package io.github.altkat.authBB.Commands;
 
 import io.github.altkat.authBB.Handlers.Connections;
+import io.github.altkat.authBB.Handlers.MessageManager;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -9,49 +10,29 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 
 public class ServerCommand implements CommandExecutor {
-    private final ConfigurationSection section;
-
-    private final String onlyPlayers;
-    private final String noPermission;
-    private final String wrongUsage;
-    private final String disabled;
-    private final String serverNotFound;
-
-    public ServerCommand(){
-        this.section = Connections.config.getConfigurationSection("Proxy");
-        this.onlyPlayers = ChatColor.translateAlternateColorCodes('&', section.getString("only-players"));
-        this.noPermission = ChatColor.translateAlternateColorCodes('&', section.getString("no-permission"));
-        this.wrongUsage = ChatColor.translateAlternateColorCodes('&', section.getString("wrong-usage-server"));
-        this.disabled = ChatColor.translateAlternateColorCodes('&', section.getString("disabled"));
-        this.serverNotFound = ChatColor.translateAlternateColorCodes('&', section.getString("server-not-found"));
-    }
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
         if (!Connections.isProxyModeActive) {
-            commandSender.sendMessage(disabled);
+            commandSender.sendMessage(MessageManager.DISABLED);
             return true;
         }
 
         if (!commandSender.hasPermission("AuthBB.server")) {
-            commandSender.sendMessage(noPermission);
-            return true;
-        }
-        if(!section.getBoolean("enabled")){
-            commandSender.sendMessage(disabled);
+            commandSender.sendMessage(MessageManager.NO_PERMISSION);
             return true;
         }
 
         if (!(commandSender instanceof Player)) {
-            commandSender.sendMessage(onlyPlayers);
+            commandSender.sendMessage(MessageManager.ONLY_PLAYERS);
             return true;
         }
         if(strings.length == 0){
-            commandSender.sendMessage(wrongUsage);
+            commandSender.sendMessage(MessageManager.WRONG_USAGE_SERVER);
             return true;
         }
-        if(!(section.getStringList("servers").contains(strings[0]))){
-            commandSender.sendMessage(serverNotFound);
+        if(!(Connections.config.getConfigurationSection("Proxy").getStringList("servers").contains(strings[0]))){
+            commandSender.sendMessage(MessageManager.SERVER_NOT_FOUND);
             return true;
         }
         Connections.connectionHandler.connectServer(((Player) commandSender).getPlayer(), strings[0]);

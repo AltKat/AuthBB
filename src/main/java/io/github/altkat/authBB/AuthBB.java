@@ -6,6 +6,7 @@ import io.github.altkat.authBB.Commands.*;
 import io.github.altkat.authBB.Handlers.ConnectionHandler;
 import io.github.altkat.authBB.Handlers.Connections;
 import io.github.altkat.authBB.Handlers.Listeners;
+import io.github.altkat.authBB.Handlers.MessageManager;
 import io.github.altkat.authBB.Titles.ConnectionTitle;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
@@ -35,6 +36,7 @@ public final class AuthBB extends JavaPlugin {
         new Metrics(this, 23372);
         loadConfig();
 
+
         if (getServer().getPluginManager().getPlugin("AuthMe") == null) {
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthMe is not installed! Disabling AuthBB...");
             getServer().getPluginManager().disablePlugin(this);
@@ -42,6 +44,8 @@ public final class AuthBB extends JavaPlugin {
         }
 
         loadConnections();
+        MessageManager.loadMessages();
+
         new Listeners(this);
 
         boolean isProxyEnabledInConfig = getConfig().getConfigurationSection("Proxy").getBoolean("enabled");
