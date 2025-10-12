@@ -7,18 +7,10 @@ softdepend:
   - AuthMe
 commands:
   authbb:
-    description: general command
-    usage: /authbb
+    description: Main command for AuthBB plugin.
+    usage: /authbb <subcommand>
     aliases:
-      - authbossbar
-  server:
-    description: Sends to lobby server.
-    usage: /server servername
-    permission: AuthBB.server
-  send:
-    description: Sends players to lobby server.
-    usage: /send player server
-    permission: AuthBB.send
+      - abb
 
 permissions:
   AuthBB.admin:

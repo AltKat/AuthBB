@@ -17,7 +17,6 @@ public class MessageManager {
     public final String PLAYER_ALREADY_CONNECTING;
     public final String SEND_SUCCESS_SENDER;
     public final String SEND_SUCCESS_SENT;
-    public final String WAIT;
 
     public MessageManager(AuthBB plugin) {
         ConfigurationSection messagesSection = plugin.getConfig().getConfigurationSection("Messages");
@@ -33,7 +32,6 @@ public class MessageManager {
         PLAYER_ALREADY_CONNECTING = translate(messagesSection, "player-already-connecting");
         SEND_SUCCESS_SENDER = translate(messagesSection, "send-success-sender");
         SEND_SUCCESS_SENT = translate(messagesSection, "send-success-sent");
-        WAIT = translate(messagesSection, "wait");
     }
 
     private String translate(ConfigurationSection section, String path) {

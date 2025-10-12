@@ -116,18 +116,8 @@ public final class AuthBB extends JavaPlugin {
 
     private void registerListenersAndCommands() {
         new Listeners(this);
-        Objects.requireNonNull(getCommand("authbb")).setExecutor(new Help(this));
-        Objects.requireNonNull(getCommand("authbb")).setTabCompleter(new TabComplete(this));
-        PluginCommand serverCommand = getCommand("server");
-        if (serverCommand != null) {
-            serverCommand.setExecutor(new ServerCommand(this));
-            serverCommand.setTabCompleter(new TabCompleteServer(this));
-        }
-        PluginCommand sendCommand = getCommand("send");
-        if (sendCommand != null) {
-            sendCommand.setExecutor(new SendCommand(this));
-            sendCommand.setTabCompleter(new TabCompleteSend(this));
-        }
+        getCommand("authbb").setExecutor(new AuthBBCommand(this));
+        getCommand("authbb").setTabCompleter(new AuthBBTabCompleter(this));
     }
 
     private boolean isProxyDetected() {

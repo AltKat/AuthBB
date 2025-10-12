@@ -21,7 +21,7 @@ Proxy:
     - lobby2
   # The delay in seconds before sending a player to a server after they have logged in.
   delay: 3
-  force-proxy: false #Set this true ONLY IF you are having AN ISSUE with proxy teleport.(It bypasses the bungee/velocity check and force enables the proxy mode)
+  force-proxy: false #Set this to true ONLY IF you are having AN ISSUE with proxy teleport.(It bypasses the bungee/velocity check and force enables the proxy mode)
 
 # ---------------------------------------------------------------------------------------------------- #
 # Boss Bar Settings
@@ -108,21 +108,14 @@ Extras:
 # All user-facing messages for commands and system feedback.
 # ---------------------------------------------------------------------------------------------------- #
 Messages:
-  error: "&cAn error occurred while connecting you, please try to use &a/server command &cif that's not working please contact to an admin."
-  success: "&aYou're being connected to the server. If the server has not connected you yet you can use &b/server &acommand."
-  error-command: "&cAn error occurred while connecting you, please make sure you are writing one of the following server name(s): &a%server_name%."
-  wait: "&cYou are sending commands too quickly please wait a moment!"
   only-players: "&4Only players can use this command!"
   no-permission: "&4You don't have the permission to use this command!"
   wrong-usage-server: "&cWrong usage! Please type &a/server servername."
   wrong-usage-send: "&cWrong usage! Please type &a/send (player) (server)"
-  connecting: "&aYou are being connected to the server..."
   disabled: "&cThis feature is disabled in the config file."
   send-success-sender: "&aYou are sending player %player% to the server %server%."
   send-success-sent: "&aYou are being connected to the lobby by an admin."
   player-not-found: "&4Player not found!"
   server-not-found: "&4Server not found!"
-  wrong-configuration-player: "&4There is something wrong with the authbb proxy configuration, please contact to an admin."
-  wrong-configuration-console: "&4There is something wrong with your authbb proxy configuration, please make sure you have set everything correct in the server section. It seems like you have a server in server(s) section above which is not in your proxy config file."
   not-authenticated: "&4Player is not authenticated!"
-  player-already-connecting: "&4Player already being connected!"
+  player-already-connecting: "&4Player is already being connected!"
