@@ -1,8 +1,8 @@
 name: AuthBB
-version: '1.3'
+version: '${project.version}'
 main: io.github.altkat.authBB.AuthBB
-api-version: '1.21'
-author: AltKat(StreetMelodeez)
+api-version: '1.16'
+authors: [StreetMelodeez(AltKat)]
 softdepend:
   - AuthMe
 commands:
@@ -19,3 +19,23 @@ commands:
     description: Sends players to lobby server.
     usage: /send player server
     permission: AuthBB.send
+
+permissions:
+  AuthBB.admin:
+    description: Grants access to all administrative commands for AuthBB.
+    children:
+      AuthBB.send: true
+      AuthBB.reload: true
+      AuthBB.help: true
+  AuthBB.send:
+    description: Allows usage of the /send command.
+    default: op
+  AuthBB.reload:
+    description: Allows usage of the /authbb reload command.
+    default: op
+  AuthBB.help:
+    description: Allows viewing the admin section of the help command.
+    default: op
+  AuthBB.server:
+    description: Allows usage of the /server command.
+    default: true

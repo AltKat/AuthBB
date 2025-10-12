@@ -1,21 +1,112 @@
-###################################################################################################################################################
-##                                           This plugin made by Altkat(StreetMelodeez) V1.3                                                     ##
-##                                   Feel free to contact me for anything on discord: streetmelodeez                                             ##
-##  Please consider using a plugin manager(PlugManX) to reload the plugin, or restart the server after you changed something in the config file. ##
-###################################################################################################################################################
+# ######################################################################################################
+# ##                                                                                                  ##
+# ##   AuthBB v${project.version} by Altkat(StreetMelodeez)                                                       ##
+# ##   Discord: streetmelodeez                                                                        ##
+# ##   Please use /authbb reload to apply changes.                                                    ##
+# ##                                                                                                  ##
+# ######################################################################################################
 
-#This option is for bungeecord, velocity and any other proxy systems.
-#It will connect players after they successfully logged-in or registered to the stated server(s) in the servers section below.
-#Please make sure you write server name exactly the same as in your proxy configuration file.
+# ---------------------------------------------------------------------------------------------------- #
+# Proxy Settings
+# Used for proxy systems like BungeeCord and Velocity.
+# ---------------------------------------------------------------------------------------------------- #
 Proxy:
+  # Set to 'true' to enable proxy features.
+  # Ensure your server is correctly configured in proxy mode (in spigot.yml or paper-global.yml).
   enabled: false
-  servers:  #If you have multiple lobby servers you can add here as much as you want as shown, and it will send the player randomly one of the configured servers. Please remove the other servers if you only have one lobby server.
+  # A list of lobby servers to send players to after they log in.
+  # If you add multiple servers, a random one will be chosen.
+  servers:
     - lobby
     - lobby2
-  delay: 3  #How many seconds should I wait before sending a player to the desired server(s) after they have logged in?
+  # The delay in seconds before sending a player to a server after they have logged in.
+  delay: 3
 
-#These are the messages for proxy connecting and commands.
-#%_% parts are placeholders please include them in your sentences as they are in the default config.
+# ---------------------------------------------------------------------------------------------------- #
+# Boss Bar Settings
+# Configures the countdown boss bars shown to players on join.
+# IMPORTANT: Valid options for 'color': RED, YELLOW, BLUE, GREEN, PINK, PURPLE, WHITE.
+# IMPORTANT: Valid options for 'style': SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20.
+# ---------------------------------------------------------------------------------------------------- #
+LoginBossBar:
+  title: "&6Please login in &a%time% &6seconds."
+  color: "GREEN"
+  style: "SEGMENTED_10"
+  time: 30
+
+RegisterBossBar:
+  title: "&bPlease register in &a%time% &6seconds."
+  color: "BLUE"
+  style: "SEGMENTED_10"
+  time: 30
+
+# ---------------------------------------------------------------------------------------------------- #
+# Title Settings
+# Configures the large text titles shown to players on join or while connecting.
+# fadein, stay, and fadeout durations are in seconds.
+# ---------------------------------------------------------------------------------------------------- #
+LoginTitle:
+  title: "&6Please Login"
+  subtitle: "&f/login password"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+RegisterTitle:
+  title: "&bPlease register"
+  subtitle: "&f/register password password"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+# This title only works if 'Proxy.enabled' is set to true.
+ConnectingTitle:
+  title: "&fConnecting"
+  subtitle: "&cYou are being connected to the lobby"
+  fadein: 2
+  stay: 5
+  fadeout: 2
+
+# ---------------------------------------------------------------------------------------------------- #
+# Kick System
+# ---------------------------------------------------------------------------------------------------- #
+Kick:
+  # If 'true', players will be kicked when the BossBar timer runs out.
+  # If you are using AuthMe's own kick feature, make sure the timings match to avoid conflicts.
+  enabled: false
+  login-message: "You were kicked because you didn't log in in time"
+  register-message: "You were kicked because you did not register in time"
+
+# ---------------------------------------------------------------------------------------------------- #
+# Extra Features
+# ---------------------------------------------------------------------------------------------------- #
+Extras:
+  # Instantly teleports the player to the coordinates below upon joining the server.
+  teleport-on-join: false
+  teleport-coordinates:
+    - 0.0 # x coordinate
+    - 0.0 # y coordinate
+    - 0.0 # z coordinate
+    - 0.0 # yaw value
+    - 0.0 # pitch value
+  # Gives players an invisibility effect until they log in.
+  makeInvisible: false
+
+  # If your spawn point is in the void and players are falling upon join, do not enable this option.
+  preventMovement: false # Prevents players from moving. AuthMe already handles this for unauthenticated players; this can be used to also prevent movement after they have logged in.
+
+  disableChat: false # Prevents players from sending messages. AuthMe already handles this for unauthenticated players; this can be used to also prevent messages after they have logged in.
+
+  # Removes the default join message when a player connects.
+  removeJoinMessage: false
+  # Removes the default quit message when a player disconnects.
+  removeLeaveMessage: false
+
+# ---------------------------------------------------------------------------------------------------- #
+# Language & Messages
+# All user-facing messages for commands and system feedback.
+# ---------------------------------------------------------------------------------------------------- #
+Messages:
   error: "&cAn error occurred while connecting you, please try to use &a/server command &cif that's not working please contact to an admin."
   success: "&aYou're being connected to the server. If the server has not connected you yet you can use &b/server &acommand."
   error-command: "&cAn error occurred while connecting you, please make sure you are writing one of the following server name(s): &a%server_name%."
@@ -34,76 +125,3 @@ Proxy:
   wrong-configuration-console: "&4There is something wrong with your authbb proxy configuration, please make sure you have set everything correct in the server section. It seems like you have a server in server(s) section above which is not in your proxy config file."
   not-authenticated: "&4Player is not authenticated!"
   player-already-connecting: "&4Player already being connected!"
-
-#IMPORTANT!#
-#Please make sure you do not write anything other than the listed options below for color and style sections.
-#Possible color options: RED, YELLOW, BLUE, GREEN, PINK, PURPLE, WHITE.
-#Possible style options: SOLID, SEGMENTED_6, SEGMENTED_10, SEGMENTED_12, SEGMENTED_20.
-#And for time option you need to give a second type integer ex: 30 for 30 seconds.
-
-#This is the boss bar which is created on registered players' login screen.
-LoginBossBar:
-  title: "&6Please login in &a%time% &6seconds."
-  color: "GREEN"
-  style: "SEGMENTED_10"
-  time: 30
-
-#This is the boss bar which is created on unregistered players' login screen.
-RegisterBossBar:
-  title: "&bPlease register in &a%time% &6seconds."
-  color: "BLUE"
-  style: "SEGMENTED_10"
-  time: 30
-
-#This is the title shown when a registered player joins the server.
-LoginTitle:
-  title: "&6Please Login"
-  subtitle: "&f/login password"
-  fadein: 2
-  stay: 5
-  fadeout: 2
-
-#This is the title shown when an unregistered player joins the server.
-RegisterTitle:
-  title: "&bPlease register"
-  subtitle: "&f/register password password"
-  fadein: 2
-  stay: 5
-  fadeout: 2
-
-#This is the title shown when a player are being connected to the server.
-#Only works if proxy is enabled above.
-ConnectingTitle:
-  title: "&fConnecting"
-  subtitle: "&cYou are being connected to the lobby"
-  fadein: 2
-  stay: 5
-  fadeout: 2
-
-#Should I kick the player if the time runs out?
-#If enabled players will be kicked out when they are not logged in or registered in the specified seconds above in the bossbar section.
-#If you disabled kick feature and using AuthMe's kick feature please make sure you match bossbar time's with the AuthMe's kick time.
-Kick:
-  enabled: false
-  login-message: "You are kicked because you didn't logged-in in time"
-  register-message: "You are kicked because you did not registered in time"
-
-Extras:
-  teleport-on-join: false #This will immediately teleport the player to the location specified below after joining the server.
-  teleport-coordinates:
-    - 0.0 #x coordinate
-    - 0.0 #y coordinate
-    - 0.0 #z coordinate
-    - 0.0 #yaw value
-    - 0.0 #pitch value
-  makeInvisible: false #Should I give players the invisibility effect?
-
-  #If your spawn point is in the void, if players are not standing on a block at the spawnpoint, and they are falling off on join, please do not enable this option.
-  preventMovement: false #Should I prevent players from moving? AuthMe already handles this while players are not authenticated; this can be used to prevent players from moving after they have logged in.
-
-  disableChat: false #Should I prevent players from sending messages? AuthMe already handles this while players are not authenticated; this can be used to prevent players from sending messages after they have logged in.
-
-  removeJoinMessage: false #Should I remove join messages?
-
-  removeLeaveMessage: false #Should I remove left messages?
-

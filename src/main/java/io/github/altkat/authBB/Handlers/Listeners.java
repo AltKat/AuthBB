@@ -83,7 +83,7 @@ public class Listeners implements Listener {
     @EventHandler
     public void onMove(PlayerMoveEvent event){
         if(extrasSection.getBoolean("preventMovement")) {
-            if (!authMe.isAuthenticated(event.getPlayer())) {
+            if (authMe.isAuthenticated(event.getPlayer())) {
                 Location from = event.getFrom();
                 Location to = event.getTo();
                 if (to == null) {

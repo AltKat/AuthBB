@@ -4,11 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="812b11a9-47f4-4068-9a73-02ad1588d925" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Handlers/RandomServer.java" afterDir="false" />
+    <list default="true" id="812b11a9-47f4-4068-9a73-02ad1588d925" name="Changes" comment="refactor(core): Implement Dependency Injection and revert title system&#10;&#10;This major refactoring overhauls the plugin's architecture to improve code quality, maintainability, and stability.&#10;&#10;Key Changes:&#10;- **Implemented Dependency Injection:**&#10;  - The static `Connections` class has been completely removed to eliminate &quot;static abuse&quot; and tight coupling between classes.&#10;  - The main `AuthBB` class now acts as the central manager, creating and injecting necessary dependencies (handlers, managers, etc.) into other classes via their constructors.&#10;  - All classes, including listeners, commands, and boss bar handlers, have been updated to receive their dependencies from the main plugin class, making the code more modular and testable.">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dependency-reduced-pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dependency-reduced-pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/AuthBB.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/AuthBB.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/BossBars/AbstractBossBar.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/BossBars/AbstractBossBar.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Commands/Help.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Commands/Help.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Commands/TabComplete.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Commands/TabComplete.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Handlers/Listeners.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Handlers/Listeners.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Handlers/MessageManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/io/github/altkat/authBB/Handlers/MessageManager.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/config.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/config.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/plugin.yml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/plugin.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -23,24 +29,29 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "AltKat"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;AltKat&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/AltKat/AuthBB.git",
-    "accountId": "2c118792-d36c-4321-94b9-4eb8beda9d00"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AltKat/AuthBB.git&quot;,
+    &quot;accountId&quot;: &quot;da8d6ff3-e938-44a4-8c99-0b6a00127b10&quot;
   }
-}]]></component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "customColor": "",
-  "associatedIndex": 4
-}]]></component>
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;customColor&quot;: &quot;&quot;,
+  &quot;associatedIndex&quot;: 4
+}</component>
   <component name="ProjectId" id="2m6vCy3P7bE8fzWz04IQlrFlWVh" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -50,24 +61,18 @@
   "keyToString": {
     "Maven.AuthBB [package].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "master",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "performance-and-security",
     "kotlin-language-version-configured": "true",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
-  <component name="SharedIndexes">
-    <attachedChunks>
-      <set>
-        <option value="bundled-jdk-9f38398b9061-39b83d9b5494-intellij.indexing.shared.core-IU-241.18034.62" />
-        <option value="bundled-js-predefined-1d06a55b98c1-0b3e54e931b4-JavaScript-IU-241.18034.62" />
-      </set>
-    </attachedChunks>
-  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -78,9 +83,76 @@
       <updated>1726409716951</updated>
       <workItem from="1726409718009" duration="1744000" />
     </task>
+    <task id="LOCAL-00001" summary="build: Configure project for multi-version support (1.16.5 - 1.21)&#10;&#10;This commit updates the Maven configuration to allow the plugin to run on a wide range of Minecraft versions, from 1.16.5 to 1.21+.&#10;&#10;Key changes:&#10;- Set Java development version to 17, which is required for modern Minecraft versions (1.18+).&#10;- Configured the maven-compiler-plugin with `&lt;release&gt;8&lt;/release&gt;` to ensure the compiled bytecode is compatible with Java 8, which is used by Minecraft 1.16.5 servers.&#10;- Downgraded the Spigot API dependency to 1.16.5. This ensures that only methods available across all target versions are used, preventing `NoSuchMethodError` exceptions on older servers.">
+      <option name="closed" value="true" />
+      <created>1760248475120</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1760248475120</updated>
+    </task>
+    <task id="LOCAL-00002" summary="feat(security): Use plugin-specific NamespaceKey for BossBars&#10;&#10;Switched from using the generic 'minecraft' namespace to a plugin-specific namespace for creating BossBars.">
+      <option name="closed" value="true" />
+      <created>1760248592821</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1760248592822</updated>
+    </task>
+    <task id="LOCAL-00003" summary="perf(proxy): Refactor ConnectionHandler to use a single plugin listener&#10;&#10;Re-architected the proxy connection logic to significantly improve performance and prevent potential memory leaks.&#10;&#10;- The BungeeCord plugin message listener is now registered only once on plugin startup (`onEnable`) and unregistered on shutdown (`onDisable`), instead of being created for every connection attempt.&#10;- The `ConnectionHandler` class now implements `PluginMessageListener` to act as a centralized handler for all incoming proxy messages.&#10;- A map (`pendingServerChecks`) has been introduced to track which player is waiting for a server validation response, ensuring the correct player is connected to the correct server.&#10;- Removed a redundant `loadConfig()` call in the main class.">
+      <option name="closed" value="true" />
+      <created>1760250077102</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1760250077102</updated>
+    </task>
+    <task id="LOCAL-00004" summary="build: Configure project for multi-version support&#10;&#10;Configures Maven to ensure compatibility across Minecraft versions 1.16.5-1.21+.&#10;&#10;- Adds the PaperLib dependency to reliably detect proxy environments (BungeeCord/Velocity).&#10;- Configures maven-shade-plugin to relocate PaperLib, preventing conflicts with other plugins.">
+      <option name="closed" value="true" />
+      <created>1760255518486</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1760255518486</updated>
+    </task>
+    <task id="LOCAL-00005" summary="feat(proxy): Implement robust detection for Bungee/Velocity conflicts&#10;&#10;- **Enhanced Proxy Detection:**&#10;  - Implemented a multi-layered detection system using Reflection to reliably identify Velocity support on both legacy (`paper.yml`) and modern (`paper-global.yml`) Paper servers.&#10;  - Added a critical check to detect and warn against a common misconfiguration where both BungeeCord and Velocity modes are enabled simultaneously, preventing IP forwarding conflicts. All proxy features are safely disabled in this state.">
+      <option name="closed" value="true" />
+      <created>1760255925270</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1760255925270</updated>
+    </task>
+    <task id="LOCAL-00006" summary="perf(core): Cache command messages on startup for efficiency&#10;&#10;Introduced a new MessageManager to load and translate all command-related messages from the config into memory on plugin startup.">
+      <option name="closed" value="true" />
+      <created>1760256853790</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1760256853790</updated>
+    </task>
+    <task id="LOCAL-00007" summary="refactor(core): Implement Dependency Injection and revert title system&#10;&#10;This major refactoring overhauls the plugin's architecture to improve code quality, maintainability, and stability.&#10;&#10;Key Changes:&#10;- **Implemented Dependency Injection:**&#10;  - The static `Connections` class has been completely removed to eliminate &quot;static abuse&quot; and tight coupling between classes.&#10;  - The main `AuthBB` class now acts as the central manager, creating and injecting necessary dependencies (handlers, managers, etc.) into other classes via their constructors.&#10;  - All classes, including listeners, commands, and boss bar handlers, have been updated to receive their dependencies from the main plugin class, making the code more modular and testable.">
+      <option name="closed" value="true" />
+      <created>1760262667829</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1760262667829</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="build: Configure project for multi-version support (1.16.5 - 1.21)&#10;&#10;This commit updates the Maven configuration to allow the plugin to run on a wide range of Minecraft versions, from 1.16.5 to 1.21+.&#10;&#10;Key changes:&#10;- Set Java development version to 17, which is required for modern Minecraft versions (1.18+).&#10;- Configured the maven-compiler-plugin with `&lt;release&gt;8&lt;/release&gt;` to ensure the compiled bytecode is compatible with Java 8, which is used by Minecraft 1.16.5 servers.&#10;- Downgraded the Spigot API dependency to 1.16.5. This ensures that only methods available across all target versions are used, preventing `NoSuchMethodError` exceptions on older servers." />
+    <MESSAGE value="feat(security): Use plugin-specific NamespaceKey for BossBars&#10;&#10;Switched from using the generic 'minecraft' namespace to a plugin-specific namespace for creating BossBars." />
+    <MESSAGE value="perf(proxy): Refactor ConnectionHandler to use a single plugin listener&#10;&#10;Re-architected the proxy connection logic to significantly improve performance and prevent potential memory leaks.&#10;&#10;- The BungeeCord plugin message listener is now registered only once on plugin startup (`onEnable`) and unregistered on shutdown (`onDisable`), instead of being created for every connection attempt.&#10;- The `ConnectionHandler` class now implements `PluginMessageListener` to act as a centralized handler for all incoming proxy messages.&#10;- A map (`pendingServerChecks`) has been introduced to track which player is waiting for a server validation response, ensuring the correct player is connected to the correct server.&#10;- Removed a redundant `loadConfig()` call in the main class." />
+    <MESSAGE value="build: Configure project for multi-version support&#10;&#10;Configures Maven to ensure compatibility across Minecraft versions 1.16.5-1.21+.&#10;&#10;- Adds the PaperLib dependency to reliably detect proxy environments (BungeeCord/Velocity).&#10;- Configures maven-shade-plugin to relocate PaperLib, preventing conflicts with other plugins." />
+    <MESSAGE value="feat(proxy): Implement robust detection for Bungee/Velocity conflicts&#10;&#10;- **Enhanced Proxy Detection:**&#10;  - Implemented a multi-layered detection system using Reflection to reliably identify Velocity support on both legacy (`paper.yml`) and modern (`paper-global.yml`) Paper servers.&#10;  - Added a critical check to detect and warn against a common misconfiguration where both BungeeCord and Velocity modes are enabled simultaneously, preventing IP forwarding conflicts. All proxy features are safely disabled in this state." />
+    <MESSAGE value="perf(core): Cache command messages on startup for efficiency&#10;&#10;Introduced a new MessageManager to load and translate all command-related messages from the config into memory on plugin startup." />
+    <MESSAGE value="refactor(core): Implement Dependency Injection and revert title system&#10;&#10;This major refactoring overhauls the plugin's architecture to improve code quality, maintainability, and stability.&#10;&#10;Key Changes:&#10;- **Implemented Dependency Injection:**&#10;  - The static `Connections` class has been completely removed to eliminate &quot;static abuse&quot; and tight coupling between classes.&#10;  - The main `AuthBB` class now acts as the central manager, creating and injecting necessary dependencies (handlers, managers, etc.) into other classes via their constructors.&#10;  - All classes, including listeners, commands, and boss bar handlers, have been updated to receive their dependencies from the main plugin class, making the code more modular and testable." />
+    <option name="LAST_COMMIT_MESSAGE" value="refactor(core): Implement Dependency Injection and revert title system&#10;&#10;This major refactoring overhauls the plugin's architecture to improve code quality, maintainability, and stability.&#10;&#10;Key Changes:&#10;- **Implemented Dependency Injection:**&#10;  - The static `Connections` class has been completely removed to eliminate &quot;static abuse&quot; and tight coupling between classes.&#10;  - The main `AuthBB` class now acts as the central manager, creating and injecting necessary dependencies (handlers, managers, etc.) into other classes via their constructors.&#10;  - All classes, including listeners, commands, and boss bar handlers, have been updated to receive their dependencies from the main plugin class, making the code more modular and testable." />
   </component>
 </project>

@@ -6,6 +6,7 @@ import io.github.altkat.authBB.Commands.*;
 import io.github.altkat.authBB.Handlers.ConnectionHandler;
 import io.github.altkat.authBB.Handlers.Listeners;
 import io.github.altkat.authBB.Handlers.MessageManager;
+import io.github.altkat.authBB.Handlers.UpdateChecker;
 import io.github.altkat.authBB.Titles.ConnectionTitle;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
@@ -32,19 +33,20 @@ public final class AuthBB extends JavaPlugin {
     @Override
     public void onEnable() {
         new Metrics(this, 23372);
-        saveDefaultConfig();
-        reloadConfig();
 
-        initializeManagers();
+        reload();
 
-        if (getServer().getPluginManager().getPlugin("AuthMe") == null) {
-            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthMe is not installed! Disabling AuthBB...");
-            getServer().getPluginManager().disablePlugin(this);
-            return;
-        }
-
-        setupProxy();
         registerListenersAndCommands();
+
+        final int SPIGOT_RESOURCE_ID = 118798;
+        new UpdateChecker(this, SPIGOT_RESOURCE_ID).getVersion(newVersion -> {
+            if (UpdateChecker.isNewerVersion(this.getDescription().getVersion(), newVersion)) {
+                getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eA new update is available! Version: " + newVersion);
+                getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §eDownload it from: https://www.spigotmc.org/resources/authbb-enhanced-boss-bar-integration-for-authme-proxy-teleport-multi-lobby-support." + SPIGOT_RESOURCE_ID + "/");
+            }else {
+                getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aYou are using the latest version of AuthBB! Version: " + this.getDescription().getVersion());
+            }
+        });
 
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aAuthBB has been enabled!");
     }
@@ -52,6 +54,21 @@ public final class AuthBB extends JavaPlugin {
     @Override
     public void onDisable() {
         getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthBB has been disabled!");
+    }
+
+    public void reload() {
+        saveDefaultConfig();
+        reloadConfig();
+
+        if (getServer().getPluginManager().getPlugin("AuthMe") == null) {
+            getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §cAuthMe is not installed! Disabling AuthBB...");
+            getServer().getPluginManager().disablePlugin(this);
+            return;
+        }
+
+        initializeManagers();
+
+        setupProxy();
     }
 
     private void initializeManagers() {
@@ -84,7 +101,7 @@ public final class AuthBB extends JavaPlugin {
     private void registerListenersAndCommands() {
         new Listeners(this);
         Objects.requireNonNull(getCommand("authbb")).setExecutor(new Help(this));
-        Objects.requireNonNull(getCommand("authbb")).setTabCompleter(new TabComplete());
+        Objects.requireNonNull(getCommand("authbb")).setTabCompleter(new TabComplete(this));
         PluginCommand serverCommand = getCommand("server");
         if (serverCommand != null) {
             serverCommand.setExecutor(new ServerCommand(this));
