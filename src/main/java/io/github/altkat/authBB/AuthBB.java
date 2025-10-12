@@ -3,10 +3,7 @@ package io.github.altkat.authBB;
 import io.github.altkat.authBB.BossBars.LoginBossBar;
 import io.github.altkat.authBB.BossBars.RegisterBossBar;
 import io.github.altkat.authBB.Commands.*;
-import io.github.altkat.authBB.Handlers.ConnectionHandler;
-import io.github.altkat.authBB.Handlers.Listeners;
-import io.github.altkat.authBB.Handlers.MessageManager;
-import io.github.altkat.authBB.Handlers.UpdateChecker;
+import io.github.altkat.authBB.Handlers.*;
 import io.github.altkat.authBB.Titles.ConnectionTitle;
 import io.github.altkat.authBB.Titles.LoginTitle;
 import io.github.altkat.authBB.Titles.RegisterTitle;
@@ -15,6 +12,7 @@ import org.bstats.bukkit.Metrics;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.Objects;
@@ -57,6 +55,14 @@ public final class AuthBB extends JavaPlugin {
     }
 
     public void reload() {
+
+        try {
+            ConfigUpdater.update(this);
+        } catch (IOException e) {
+            getLogger().severe("Could not update config.yml! Please check file permissions.");
+            e.printStackTrace();
+        }
+
         saveDefaultConfig();
         reloadConfig();
 
