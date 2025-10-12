@@ -5,15 +5,15 @@ AuthBB is a handy Spigot plugin that makes logging in and registering on your Mi
 ![AuthBB Login GIF](https://altkat.github.io/AuthBB/login.gif)
 
 ## Important Notes:
-This plugin has only been tested on versions 1.16.5 - 1.21. While I cannot guarantee compatibility with older versions, you are welcome to try it out. If you find that it works on an older version, please let me know so I can update the thread and inform more people about it. Thank you.
+This plugin is built for modern Minecraft versions and has been tested on 1.16.5 - 1.21+. While it may work on other versions, compatibility is not guaranteed.
 
 ## Key Features:
 - **Login and Register Boss Bar:** Automatically creates a customizable boss bar with a countdown timer on the login and register screen, making the authentication process more engaging for players.
-- **Customizable Titles:** Offers the option to display personalized titles on login, registration, and connection screens, enhancing the visual experience and providing important information to players.
-- **Proxy Teleport Support:** Compatible with BungeeCord and Velocity server systems, enabling smooth integration and consistent performance across different server setups.
-- **Multiple Lobby Support:** You can have more than one lobby, and AuthBB will randomly send your players to one of the configured ones.
-- **Auto Kick Feature:** Configurable kick mechanism that removes players from the server after a specified number of seconds if they are not logged in or registered.
-- **Fully Customizable:** Offers extensive customization options, including boss bar appearance, messages, timers, and command messages.
+- **Fully Customizable:** Offers extensive customization options for titles, boss bars, messages, and timers.
+- **Intelligent Proxy Teleport Support:** Automatically detects BungeeCord and Velocity environments. It also warns about critical misconfigurations (e.g., both enabled at once) and includes a `force-proxy` option for unsupported setups.
+- **Multiple Lobby Support:** Configure multiple lobby servers, and AuthBB will randomly send players to one of them after login.
+- **Automatic Updaters:** Features a Config Updater to seamlessly add new options on plugin updates and an Update Checker to notify admins of new versions.
+- **Auto Kick Feature:** A configurable kick mechanism that removes players if they fail to authenticate in time.
 - **Session Support:** Works seamlessly with AuthMe's session feature.
 
 ## Some Extra Features:
@@ -24,35 +24,47 @@ This plugin has only been tested on versions 1.16.5 - 1.21. While I cannot guara
 - **Remove Join and Leave Messages**
 
 ## Commands and Permissions:
-- **/send Command:** Provides server admins with the ability to send players to lobby servers using the command `/send (playername) (servername)`.
-  - **Permission Node:** `AuthBB.send`
-- **/server Command:** Lets players connect directly to the lobby server using the `/server (servername)` command.
-  - **Permission Node:** `AuthBB.server`
-- **/AuthBB help Command:** Displays a comprehensive help page with separate sections for players and admins based on their permissions.
-  - If a player has the `AuthBB.help` permission, they see the admin help page, providing easy access to all commands and features available to them.
+- **Main Command:** `/authbb` (Alias: `/abb`)
+- **Subcommands:**
+  - `/authbb help`: Displays the help menu.
 
-## Some Visuals from AuthBB
-**Register Screen**  
+  - `/authbb server <servername>`: Lets players connect to a configured lobby server.
+
+    - Permission: `AuthBB.server` (default: true for all players)
+
+  - `/authbb send <player> <servername>`: Sends a player to a configured lobby server.
+
+    - Permission: `AuthBB.send` (default: op)
+
+  - /authbb reload: Reloads the plugin's configuration file.
+
+    - Permission: `AuthBB.reload` (default: op)
+
+- **Admin Permission:**
+  - `AuthBB.admin`: A parent permission that grants access to all admin commands (send, reload, and the admin help menu).
+
+---
+
+# Some Visuals from AuthBB
+### **Register Screen**  
 ![Register](https://altkat.github.io/AuthBB/register.gif)
 
-**Kick System**  
+### **Kick System**  
 ![Kick System](https://altkat.github.io/AuthBB/kick.gif)
 
-**Server Command**  
+### **Server Command**  
 ![Server Command Full](https://altkat.github.io/AuthBB/server%20command.gif)
 ![Server Command](https://altkat.github.io/AuthBB/update/server.png)
 
-**Send Command**  
+### **Send Command**  
 ![Send Command Full](https://altkat.github.io/AuthBB/send%20command.gif)
 ![Server Command](https://altkat.github.io/AuthBB/update/send.png)
 
-**Advanced Inform Messages**  
-![Console Inform](https://altkat.github.io/AuthBB/update/console_error.png)  
-![Chat Inform](https://altkat.github.io/AuthBB/update/chat_error.png)
+---
 
 ## Contact Me:
-If you need any help or improvements with the plugin, please feel free to contact me.  
-Please report any problems with the plugin and share your suggestions so I can improve it.
-
+If you need any help or have suggestion, please feel free to contact me.
 **Discord ID:** [streetmelodeez](https://discordapp.com/users/247441109888925697)
+
+---
 
