@@ -3,113 +3,106 @@ package io.github.altkat.authBB.Handlers;
 import io.github.altkat.authBB.AuthBB;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.DataInputStream;
-import java.io.DataOutputStream;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
+import java.util.logging.Level;
 
-public class ConnectionHandler {
-    protected AuthBB plugin;
-    protected ConfigurationSection section;
-    private final Map<Player, BukkitRunnable> tasks = new HashMap<>();
-    private final Map<Player, Boolean> listenersRegistered = new HashMap<>();
+public class ConnectionHandler implements PluginMessageListener {
+    private final AuthBB plugin;
+    private final ConfigurationSection proxySection;
 
-    public ConnectionHandler(AuthBB plugin, String section){
+    private final Map<UUID, String> pendingServerChecks = new HashMap<>();
+    private final List<UUID> sending = new ArrayList<>();
+
+    public ConnectionHandler(AuthBB plugin) {
         this.plugin = plugin;
-        this.section = Connections.config.getConfigurationSection("Proxy");
+        this.proxySection = plugin.getConfig().getConfigurationSection("Proxy");
     }
 
-    public void connectServer(Player player, String server){
-        Integer delay = section.getInt("delay");
-        String errorMessage = section.getString("error-command").replace("&","§").replace("%server_name%", server);
-        String successMessage = section.getString("success").replace("&", "§");
-        String waitMessage = section.getString("wait").replace("&", "§");
-        String wrongConfigPlayer = section.getString("wrong-configuration-player").replace("&", "§");
-        String wrongConfigConsole = section.getString("wrong-configuration-console").replace("&", "§");
-
-        if (Connections.sending.contains(player)) {
-            player.sendMessage(waitMessage);
+    public void connectServer(Player player, String server) {
+        if (sending.contains(player.getUniqueId())) {
+            player.sendMessage(plugin.getMessageManager().PLAYER_ALREADY_CONNECTING);
             return;
         }
 
-        if (tasks.containsKey(player)) {
-            tasks.get(player).cancel();
-            tasks.remove(player);
+        pendingServerChecks.put(player.getUniqueId(), server);
+
+        try {
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            DataOutputStream out = new DataOutputStream(output);
+            out.writeUTF("GetServers");
+            player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Could not send GetServers plugin message", e);
+        }
+    }
+
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+        if (!channel.equals("BungeeCord")) {
+            return;
         }
 
-
-        if (listenersRegistered.getOrDefault(player, false)) {
-            plugin.getServer().getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord");
-            listenersRegistered.put(player, false);
+        UUID playerUUID = player.getUniqueId();
+        if (!pendingServerChecks.containsKey(playerUUID)) {
+            return;
         }
 
-        plugin.getServer().getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", (channel, player1, message) -> {
-            if (!channel.equals("BungeeCord")) {
-                return;
-            }
+        String targetServer = pendingServerChecks.get(playerUUID);
 
-            if (!player.equals(player1)) {
-                return;
-            }
+        try (DataInputStream in = new DataInputStream(new ByteArrayInputStream(message))) {
+            String subchannel = in.readUTF();
 
-            try {
-                DataInputStream in = new DataInputStream(new ByteArrayInputStream(message));
-                String subchannel = in.readUTF();
-                if (subchannel.equals("GetServers")) {
-                    String[] servers = in.readUTF().split(", ");
-                    if (!Arrays.asList(servers).contains(server)) {
-                        player.sendMessage(wrongConfigPlayer);
-                        player.getServer().getConsoleSender().sendMessage(wrongConfigConsole);
-                        player.resetTitle();
-                        plugin.getServer().getMessenger().unregisterIncomingPluginChannel(plugin, "BungeeCord");
-                        listenersRegistered.put(player, false);
-                        return;
-                    }
+            if (subchannel.equals("GetServers")) {
+                String[] servers = in.readUTF().split(", ");
+                pendingServerChecks.remove(playerUUID);
 
-                    Connections.sending.add(player);
-                    Connections.connectionTitle.sendTitle(player);
-                    player.sendMessage(successMessage);
-                    new BukkitRunnable(){
-                        @Override
-                        public void run(){
-                            ByteArrayOutputStream output = new ByteArrayOutputStream();
-                            DataOutputStream out = new DataOutputStream(output);
-                            try{
-                                out.writeUTF("Connect");
-                                out.writeUTF(server);
-                                player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
-                                Connections.sending.remove(player);
-                            } catch (Exception error){
-                                error.printStackTrace();
-                                Connections.sending.remove(player);
-                                player.sendMessage(errorMessage);
-                            }
-                        }
-                    }.runTaskLater(plugin, delay * 20L);
+                if (!Arrays.asList(servers).contains(targetServer)) {
+                    player.sendMessage(plugin.getMessageManager().SERVER_NOT_FOUND);
+                    plugin.getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §c" + player.getName() + " tried to connect to a server ('" + targetServer + "') not found in the proxy's server list.");
+                    player.resetTitle();
+                    return;
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
+                sendPlayerToProxyServer(player, targetServer);
             }
-        });
-        listenersRegistered.put(player, true);
+        } catch (IOException e) {
+            plugin.getLogger().log(Level.SEVERE, "Error processing plugin message from BungeeCord", e);
+            pendingServerChecks.remove(playerUUID);
+        }
+    }
+
+    private void sendPlayerToProxyServer(Player player, String server) {
+        int delay = proxySection.getInt("delay", 3);
+        String successMessage = proxySection.getString("success", "&aConnecting you to the server...").replace("&", "§");
+        String errorMessage = proxySection.getString("error-command", "&cAn error occurred.").replace("&", "§");
+
+        sending.add(player.getUniqueId());
+        plugin.getConnectionTitle().sendTitle(player);
+        player.sendMessage(successMessage);
 
         new BukkitRunnable() {
             @Override
             public void run() {
-                ByteArrayOutputStream output = new ByteArrayOutputStream();
-                DataOutputStream out = new DataOutputStream(output);
                 try {
-                    out.writeUTF("GetServers");
+                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    DataOutputStream out = new DataOutputStream(output);
+                    out.writeUTF("Connect");
+                    out.writeUTF(server);
                     player.sendPluginMessage(plugin, "BungeeCord", output.toByteArray());
-                } catch (Exception error) {
-                    error.printStackTrace();
+                } catch (IOException error) {
+                    plugin.getLogger().log(Level.SEVERE, "Could not send Connect plugin message for " + player.getName(), error);
+                    player.sendMessage(errorMessage);
+                } finally {
+                    sending.remove(player.getUniqueId());
                 }
             }
-        }.runTaskAsynchronously(plugin);
+        }.runTaskLater(plugin, delay * 20L);
+    }
+
+    public boolean isPlayerSending(Player player) {
+        return sending.contains(player.getUniqueId());
     }
 }
