@@ -34,7 +34,6 @@ public final class AuthBB extends JavaPlugin {
     public void onEnable() {
         Metrics metrics = new Metrics(this, 23372);
         loadConfig();
-        loadConfig();
         if (getServer().getPluginManager().getPlugin("AuthMe") != null) {
             getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §aAuthMe found! Enabling AuthBB...");
 
@@ -49,7 +48,8 @@ public final class AuthBB extends JavaPlugin {
 
         if (Connections.config.getConfigurationSection("Proxy").getBoolean("enabled")) {
             Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §aProxy support is enabled.");
-            Bukkit.getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+            this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", Connections.connectionHandler);
         }else{
             Bukkit.getConsoleSender().sendMessage("§9[§6AuthBB§9] §cProxy support is disabled, you can enable it from the config file.");
         }
@@ -72,12 +72,13 @@ public final class AuthBB extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
-    getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §chas been disabled!");
+        this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
+        this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+        getServer().getConsoleSender().sendMessage("§9[§6AuthBB§9] §chas been disabled!");
     }
 
     public void loadConfig(){
-        reloadConfig();
         saveDefaultConfig();
+        reloadConfig();
     }
 }
