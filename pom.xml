@@ -60,6 +60,10 @@
   </build>
 
   <repositories>
+      <repository>
+          <id>papermc-repo</id>
+          <url>https://repo.papermc.io/repository/maven-public/</url>
+      </repository>
     <repository>
       <id>spigotmc-repo</id>
       <url>https://hub.spigotmc.org/nexus/content/repositories/snapshots/</url>
@@ -81,6 +85,12 @@
       <version>1.16.5-R0.1-SNAPSHOT</version>
       <scope>provided</scope>
     </dependency>
+
+      <dependency>
+          <groupId>io.papermc</groupId>
+          <artifactId>paperlib</artifactId>
+          <version>1.0.8</version> <scope>compile</scope>
+      </dependency>
     <dependency>
       <groupId>fr.xephi</groupId>
       <artifactId>authme</artifactId>
