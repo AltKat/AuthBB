@@ -72,6 +72,10 @@ If you need any help or have suggestion, please feel free to contact me.
 ---
 
 ## Config File
+
+<details>
+  <summary>Click to see default config</summary>
+
 ```yaml
 # ######################################################################################################
 # ##                                                                                                  ##
@@ -196,5 +200,6 @@ Messages:
   player-already-connecting: "&4Player is already being connected!"
 
 ```
+</details>
 
 
