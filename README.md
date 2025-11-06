@@ -5,8 +5,8 @@ AuthBB is a handy Spigot plugin that makes logging in and registering on your Mi
 ![AuthBB Login GIF](https://altkat.github.io/AuthBB/login.gif)
 
 <div align="center"><b>Important!</b></div><br>
-<div align="center"><b>This plugin requires AuthMe installed to work!</b><br><br>This plugin uses Java 17, if you are using another java version you may need to add this line to your batch file:<br>
-"<b>-DPaper.IgnoreJavaVersion=true ^</b>"​<br><br>
+<div align="center"><b>This plugin requires AuthMe installed to work!</b><br><br>This plugin requires Java 17 or newer.<br>
+<br><br>
 </div>
 
 ## Features:
