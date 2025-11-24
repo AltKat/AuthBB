@@ -15,8 +15,8 @@ AuthBB is a handy Spigot plugin that makes logging in and registering on your Mi
     <img src="https://img.shields.io/bstats/servers/23372?label=bStats&style=for-the-badge" alt="bStats Servers" />
   </a>
   <br>
-  <a href="https://discordapp.com/users/247441109888925697">
-    <img src="https://img.shields.io/badge/Discord-Profile-5865F2?style=for-the-badge&logo=discord" alt="Discord Profile" />
+  <a href="https://discord.gg/nxY3fc7xz9">
+    <img src="https://img.shields.io/badge/Discord-Server-5865F2?style=for-the-badge&logo=discord" alt="Discord Server" />
   </a>
 </p>
 
@@ -83,7 +83,7 @@ AuthBB is a handy Spigot plugin that makes logging in and registering on your Mi
 
 ## Contact Me:
 If you need any help or have suggestion, please feel free to contact me.
-**Discord ID:** [streetmelodeez](https://discordapp.com/users/247441109888925697)
+**Discord:** [Join Server](https://discord.gg/nxY3fc7xz9)
 
 ---
 
